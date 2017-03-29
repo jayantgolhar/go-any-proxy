@@ -32,3 +32,4 @@ rules in Mac OS X firewall, see issue #16 (https://github.com/ryanchapman/go-any
 
 -Ryan A. Chapman<br>
  Sun Nov  2 16:39:24 MST 2014
+# go-any-proxy
