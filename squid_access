@@ -1,0 +1,39 @@
+Following is the requirement from CC side for your MTP project.
+
+
+1. Writing a program in go language which can transparently send requests
+to multiple squids(proxy).
+2. User activity logging in the format of squid is required.
+3. Scaling behavior to be studied/analysed under different load conditions
+for latency.
+4. Connection management with a view to balance load across the backend
+squid servers.
+5. Firewall connections logging feature to be implemented.
+
+
+
+It is configured for both the ip addresses. You can ssh to the servers
+using ip addresses 10.201.23.1/2/3/4/5 with userid "jayant" and passcode
+"jayant@123". The following command will show you the logs for a
+particular ip.
+
+ssh 10.201.23.1
+
+tail -f //squid.logs.datewise/access.log.20170201 | grep 10.14.31.10
+
+cat //squid.logs.datewise/access.log.20170201 | grep 10.14.31.10
+
+
+from the file name you can make out that it is a today's access file. e.g.
+access.log.yyyymmdd.
+
+So depending on the today's date you have to access the respective file
+while debugging. If you have any doubts then kindly let me know.
+
+
+
+iptables -t nat -A OUTPUT -d 0/0 -p tcp --dport 443 -j DNAT --to-destination 127.0.0.1:3129
+
+tail -f /var/log/any_proxy.log
+
+CC lab machine IP : 10.100.106.111
