@@ -485,6 +485,8 @@ func getOriginalDst(clientConn *net.TCPConn) (ipv4 string, port uint16, newTCPCo
 	// IPv4 address starts at the 5th byte, 4 bytes long (206 190 36 45)
 	addr, err := syscall.GetsockoptIPv6Mreq(int(clientConnFile.Fd()), syscall.IPPROTO_IP, SO_ORIGINAL_DST)
 	log.Debugf("getOriginalDst(): SO_ORIGINAL_DST=%+v\n", addr)
+	log.Infof("getOriginalDst(): SO_ORIGINAL_DST=%+v\n", addr)
+	log.Infof("GETORIGINALDST|%v error :%v", srcipport, err)
 	if err != nil {
 		log.Infof("GETORIGINALDST|%v->?->FAILEDTOBEDETERMINED|ERR: getsocketopt(SO_ORIGINAL_DST) failed: %v", srcipport, err)
 		return

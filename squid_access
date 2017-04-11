@@ -34,6 +34,15 @@ while debugging. If you have any doubts then kindly let me know.
 
 iptables -t nat -A OUTPUT -d 0/0 -p tcp --dport 443 -j DNAT --to-destination 127.0.0.1:3129
 
+iptables -t nat -A OUTPUT -d 0/0 -p tcp --dport 443 -j DNAT --to-destination 10.129.40.100:3129
+
 tail -f /var/log/any_proxy.log
 
 CC lab machine IP : 10.100.106.111
+
+The following example redirects TCP port 25 to port 2525:
+
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 3129
+
+CC VM IP address : 10.201.23.17
+ssh root@10.201.23.17
