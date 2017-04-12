@@ -46,3 +46,5 @@ iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 3
 
 CC VM IP address : 10.201.23.17
 ssh root@10.201.23.17
+
+curl -d "uname=153050062&passwd=jayant@9764718672&submit=Login" --dump-header headers https://internet.iitb.ac.in/index.php
