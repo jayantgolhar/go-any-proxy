@@ -326,7 +326,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	runtime.GOMAXPROCS(runtime.NumCPU() / 2)
 	setupLogging()
 	setupProfiling()
 	setupStats()
@@ -356,17 +355,20 @@ func main() {
 	}
 	defer listener.Close()
 	log.Infof("Listening for connections on %v\n", listener.Addr())
-
+	
+	connCount := 0
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			log.Infof("Error accepting connection: %v\n", err)
+			log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
 			incrAcceptErrors()
 			continue
 		}
 		incrAcceptSuccesses()
 		// log.Infof("Call handleConnection")
 		go handleConnection(conn)
+		log.Infof("connCount  : %d", connCount)
+		connCount += 1
 	}
 }
 
@@ -664,7 +666,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		connectString := fmt.Sprintf("CONNECT %s:%d HTTP/1.0%s\r\n%s\r\n", ipv4, port, authString, headerXFF)
 		log.Debugf("PROXY|%v->%v->%s:%d|Sending to proxy: %s\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(connectString))
 		// log.Infof("connectString%d : %s", count, connectString)
-		log.Infof("connectString : %d", count)
+		//log.Infof("connectString : %d", count)
 		count += 1
 		fmt.Fprintf(proxyConn, connectString)
 		status, err := bufio.NewReader(proxyConn).ReadString('\n')
@@ -733,6 +735,10 @@ func timeTrack(start time.Time, name string) /*float64 */ {
 }
 
 func handleConnection(clientConn *net.TCPConn) {
+	
+	var wg1 sync.WaitGroup
+	wg1.Add(1)
+	wg1.Wait()
 
 	start := time.Now()
 	//change
