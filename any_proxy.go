@@ -355,20 +355,20 @@ func main() {
 	}
 	defer listener.Close()
 	log.Infof("Listening for connections on %v\n", listener.Addr())
-	
-	connCount := 0
+
+	// connCount := 0
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
+			log.Infof("Error accepting connection: %v\n", err)
+			// log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
 			incrAcceptErrors()
 			continue
 		}
 		incrAcceptSuccesses()
-		// log.Infof("Call handleConnection")
 		go handleConnection(conn)
-		log.Infof("connCount  : %d", connCount)
-		connCount += 1
+		// log.Infof("connCount  : %d", connCount)
+		// connCount += 1
 	}
 }
 
@@ -735,10 +735,10 @@ func timeTrack(start time.Time, name string) /*float64 */ {
 }
 
 func handleConnection(clientConn *net.TCPConn) {
-	
-	var wg1 sync.WaitGroup
-	wg1.Add(1)
-	wg1.Wait()
+
+	// var wg1 sync.WaitGroup
+	// wg1.Add(1)
+	// wg1.Wait()
 
 	start := time.Now()
 	//change
