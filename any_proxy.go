@@ -356,19 +356,19 @@ func main() {
 	defer listener.Close()
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
-	// connCount := 0
+	connCount := 0
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			log.Infof("Error accepting connection: %v\n", err)
-			// log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
+			// log.Infof("Error accepting connection: %v\n", err)
+			log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
 			incrAcceptErrors()
 			continue
 		}
 		incrAcceptSuccesses()
 		go handleConnection(conn)
 		// log.Infof("connCount  : %d", connCount)
-		// connCount += 1
+		connCount += 1
 	}
 }
 
@@ -387,6 +387,7 @@ func checkProxies() {
 
 		log.Infof("Added proxy server %v\n", proxySpec)
 		if gSkipCheckUpstreamsReachable != 1 {
+			// log.Infof("checkProxies")
 			conn, err := dial(proxySpec)
 			if err != nil {
 				log.Infof("Test connection to %v: failed. Removing from proxy server list\n", proxySpec)
@@ -566,6 +567,7 @@ func handleDirectConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (
 	}
 
 	ipport := fmt.Sprintf("%s:%d", ipv4, port)
+	// log.Infof("handleDirectConnection")
 	directConn, err := dial(ipport)
 	if err != nil {
 		clientConnRemoteAddr := "?"
@@ -653,6 +655,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 
 		proxySpec := gProxyServers[(hashValue+i)%numProxyServer]
 
+		// log.Infof("handleProxyConnection")
 		proxyConn, err = dial(proxySpec)
 		if err != nil {
 			log.Debugf("PROXY|%v->%v->%s:%d|Trying next proxy.", clientConn.RemoteAddr(), proxySpec, ipv4, port)
@@ -666,7 +669,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		connectString := fmt.Sprintf("CONNECT %s:%d HTTP/1.0%s\r\n%s\r\n", ipv4, port, authString, headerXFF)
 		log.Debugf("PROXY|%v->%v->%s:%d|Sending to proxy: %s\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(connectString))
 		// log.Infof("connectString%d : %s", count, connectString)
-		//log.Infof("connectString : %d", count)
+		log.Infof("connectString : %d", count)
 		count += 1
 		fmt.Fprintf(proxyConn, connectString)
 		status, err := bufio.NewReader(proxyConn).ReadString('\n')
