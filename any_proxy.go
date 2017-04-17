@@ -357,6 +357,16 @@ func main() {
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
 	connCount := 0
+	connChan := make(chan *net.TCPConn, 10000)
+	noofConnAtOnce := 20
+	go func() {
+		for {
+			for i := 0; i < noofConnAtOnce; i++ {
+				go handleConnection(<-connChan)
+			}
+			time.Sleep(1 * time.Second)
+		}
+	}()
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
@@ -365,8 +375,9 @@ func main() {
 			incrAcceptErrors()
 			continue
 		}
+		connChan <- conn
 		incrAcceptSuccesses()
-		go handleConnection(conn)
+		// go handleConnection(conn)
 		// log.Infof("connCount  : %d", connCount)
 		connCount += 1
 	}
