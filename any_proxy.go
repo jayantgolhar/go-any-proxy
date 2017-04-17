@@ -357,16 +357,16 @@ func main() {
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
 	connCount := 0
-	connChan := make(chan *net.TCPConn, 10000)
-	noofConnAtOnce := 20
-	go func() {
-		for {
-			for i := 0; i < noofConnAtOnce; i++ {
-				go handleConnection(<-connChan)
-			}
-			time.Sleep(1 * time.Second)
-		}
-	}()
+	// connChan := make(chan *net.TCPConn, 10000)
+	// noofConnAtOnce := 20
+	// go func() {
+	// 	for {
+	// 		for i := 0; i < noofConnAtOnce; i++ {
+	// 			go handleConnection(<-connChan)
+	// 		}
+	// 		time.Sleep(1 * time.Second)
+	// 	}
+	// }()
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
@@ -375,10 +375,10 @@ func main() {
 			incrAcceptErrors()
 			continue
 		}
-		connChan <- conn
+		// connChan <- conn
 		incrAcceptSuccesses()
-		// go handleConnection(conn)
-		// log.Infof("connCount  : %d", connCount)
+		go handleConnection(conn)
+		log.Infof("connCount  : %d", connCount)
 		connCount += 1
 	}
 }
@@ -750,9 +750,9 @@ func timeTrack(start time.Time, name string) /*float64 */ {
 
 func handleConnection(clientConn *net.TCPConn) {
 
-	// var wg1 sync.WaitGroup
-	// wg1.Add(1)
-	// wg1.Wait()
+	var wg1 sync.WaitGroup
+	wg1.Add(1)
+	wg1.Wait()
 
 	start := time.Now()
 	//change
