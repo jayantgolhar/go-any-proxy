@@ -10,32 +10,34 @@ import (
 func main() {
 
 	var wg1 sync.WaitGroup
-	wg1.Add(1)
 	connCount := 0
 	messages := make(chan int)
 	var mutex = &sync.Mutex{}
-	for i := 0; i < 1000; i++ {
+	noOfConn := 10000
+	wg1.Add(1)
+	for i := 0; i < noOfConn; i++ {
 		// fmt.Println("inside loop")
 		go func() {
-			fmt.Println("inside func")
 			wg1.Wait()
-			clientConn, err := net.Dial("tcp", "10.201.23.4:80")
+			clientConn, err := net.Dial("tcp", "10.201.23.1:80")
 			if err != nil {
 				fmt.Printf("dial(): ERR: could not connect to %v\n", err)
 			}
 			srcipport := fmt.Sprintf("%v", clientConn.LocalAddr())
 			dstipport := fmt.Sprintf("%v", clientConn.RemoteAddr())
-			fmt.Println("connCount : ", connCount, srcipport, dstipport)
 			mutex.Lock()
 			connCount += 1
 			mutex.Unlock()
+			fmt.Println("connCount : ", connCount, srcipport, dstipport)
 
 			messages <- 1
+			time.Sleep(1 * time.Second)
+			clientConn.Close()
 		}()
 	}
 	wg1.Done()
 	start := time.Now()
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < noOfConn; i++ {
 		<-messages
 	}
 	elapsed := time.Since(start).Seconds()
