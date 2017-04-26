@@ -51,11 +51,11 @@ import (
 	"io"
 	// syslog "log"
 	"bytes"
+	"hash/fnv"
 	"net"
 	"os"
 	"os/signal"
 	// "reflect"
-	"hash/fnv"
 	"runtime"
 	"runtime/pprof"
 	"strconv"
@@ -372,9 +372,10 @@ func main() {
 		refreshTime := 1 * time.Second
 		for {
 			for i := 0; i < len(gProxyServers); i++ {
-				_, err := net.Dial("tcp", gProxyServers[i]+":80")
+				_, err := net.Dial("tcp", gProxyServers[i])
 				if err != nil {
 					gProxyServers = append(gProxyServers[:i], gProxyServers[i+1:]...)
+					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
 				}
 			}
 			time.Sleep(refreshTime)
