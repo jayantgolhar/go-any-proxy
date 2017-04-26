@@ -367,6 +367,20 @@ func main() {
 	// 		time.Sleep(1 * time.Second)
 	// 	}
 	// }()
+
+	go func() {
+		refreshTime := 1 * time.Second
+		for {
+			for i := 0; i < len(gProxyServers); i++ {
+				_, err := net.Dial("tcp", gProxyServers[i]+":80")
+				if err != nil {
+					gProxyServers = append(gProxyServers[:i], gProxyServers[i+1:]...)
+				}
+			}
+			time.Sleep(refreshTime)
+		}
+	}()
+
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
@@ -378,7 +392,7 @@ func main() {
 		// connChan <- conn
 		incrAcceptSuccesses()
 		go handleConnection(conn)
-		log.Infof("connCount  : %d", connCount)
+		// log.Infof("connCount  : %d", connCount)
 		connCount += 1
 	}
 }
@@ -665,6 +679,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	for i := 0; i < numProxyServer; i++ {
 
 		proxySpec := gProxyServers[(hashValue+i)%numProxyServer]
+		proxySpec = gProxyServers[0]
 
 		// log.Infof("handleProxyConnection")
 		proxyConn, err = dial(proxySpec)
@@ -750,9 +765,9 @@ func timeTrack(start time.Time, name string) /*float64 */ {
 
 func handleConnection(clientConn *net.TCPConn) {
 
-	var wg1 sync.WaitGroup
-	wg1.Add(1)
-	wg1.Wait()
+	// var wg1 sync.WaitGroup
+	// wg1.Add(1)
+	// wg1.Wait()
 
 	start := time.Now()
 	//change
@@ -818,15 +833,15 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(strconv.Itoa(int(bytesWritten)))
 	logbuffer.WriteString("\n")
 
-	n, err := net.LookupAddr("31.13.78.35")
+	// n, err := net.LookupAddr("31.13.78.35")
 
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
 	// logbuffer.WriteString(ipv4)
-	logbuffer.WriteString(n[0])
-	logbuffer.WriteString(":")
-	logbuffer.WriteString(strconv.Itoa(int(port)))
-	logbuffer.WriteString(" ")
+	// logbuffer.WriteString(n[0])
+	// logbuffer.WriteString(":")
+	// logbuffer.WriteString(strconv.Itoa(int(port)))
+	// logbuffer.WriteString(" ")
 
 	logbuffer.WriteString("- ")
 
