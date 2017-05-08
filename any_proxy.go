@@ -306,9 +306,9 @@ func setupLogging() {
 	}
 
 	log.SetLevel(log.INFO)
+	//log.SetLevel(log.WARNING)
 	if gVerbosity != 0 {
 		log.SetLevel(log.DEBUG)
-		log.SetLevel(log.WARNING)
 	}
 
 	if err := log.OpenFile(gLogfile, log.FLOG_APPEND, 0644); err != nil {
@@ -696,7 +696,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		connectString := fmt.Sprintf("CONNECT %s:%d HTTP/1.0%s\r\n%s\r\n", ipv4, port, authString, headerXFF)
 		log.Debugf("PROXY|%v->%v->%s:%d|Sending to proxy: %s\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(connectString))
 		// log.Infof("connectString%d : %s", count, connectString)
-		log.Infof("connectString : %d", count)
+		//log.Infof("connectString : %d", count)
 		count += 1
 		fmt.Fprintf(proxyConn, connectString)
 		status, err := bufio.NewReader(proxyConn).ReadString('\n')
@@ -835,19 +835,29 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString("\n")
 
 	// n, err := net.LookupAddr("31.13.78.35")
+	n, err := net.LookupAddr(strings.Split(ipv4, ":")[0])
 
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
 	// logbuffer.WriteString(ipv4)
-	// logbuffer.WriteString(n[0])
-	// logbuffer.WriteString(":")
-	// logbuffer.WriteString(strconv.Itoa(int(port)))
-	// logbuffer.WriteString(" ")
+	if len(n) >= 1{
+		logbuffer.WriteString(n[0])
+		logbuffer.WriteString(":")
+		logbuffer.WriteString(strconv.Itoa(int(port)))
+	}else{
+		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+	}
+	logbuffer.WriteString(" ")
 
+	//dash for username
 	logbuffer.WriteString("- ")
 
 	logbuffer.WriteString("HIER_DIRECT/")
-	logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+	if len(n) >= 1{
+                logbuffer.WriteString(n[0])
+        }else{
+                logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+        }
 	logbuffer.WriteString(" ")
 
 	logbuffer.WriteString("- ")
