@@ -51,11 +51,11 @@ import (
 	"io"
 	// syslog "log"
 	"bytes"
+	"hash/fnv"
 	"net"
 	"os"
 	"os/signal"
 	// "reflect"
-	"hash/fnv"
 	"runtime"
 	"runtime/pprof"
 	"strconv"
@@ -306,6 +306,7 @@ func setupLogging() {
 	}
 
 	log.SetLevel(log.INFO)
+	//log.SetLevel(log.WARNING)
 	if gVerbosity != 0 {
 		log.SetLevel(log.DEBUG)
 	}
@@ -325,7 +326,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	runtime.GOMAXPROCS(runtime.NumCPU() / 2)
 	setupLogging()
 	setupProfiling()
 	setupStats()
@@ -356,16 +356,45 @@ func main() {
 	defer listener.Close()
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
+	connCount := 0
+	// connChan := make(chan *net.TCPConn, 10000)
+	// noofConnAtOnce := 20
+	// go func() {
+	// 	for {
+	// 		for i := 0; i < noofConnAtOnce; i++ {
+	// 			go handleConnection(<-connChan)
+	// 		}
+	// 		time.Sleep(1 * time.Second)
+	// 	}
+	// }()
+
+	go func() {
+		refreshTime := 1 * time.Second
+		for {
+			for i := 0; i < len(gProxyServers); i++ {
+				_, err := net.Dial("tcp", gProxyServers[i])
+				if err != nil {
+					gProxyServers = append(gProxyServers[:i], gProxyServers[i+1:]...)
+					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
+				}
+			}
+			time.Sleep(refreshTime)
+		}
+	}()
+
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			log.Infof("Error accepting connection: %v\n", err)
+			// log.Infof("Error accepting connection: %v\n", err)
+			log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
 			incrAcceptErrors()
 			continue
 		}
+		// connChan <- conn
 		incrAcceptSuccesses()
-		// log.Infof("Call handleConnection")
 		go handleConnection(conn)
+		// log.Infof("connCount  : %d", connCount)
+		connCount += 1
 	}
 }
 
@@ -384,6 +413,7 @@ func checkProxies() {
 
 		log.Infof("Added proxy server %v\n", proxySpec)
 		if gSkipCheckUpstreamsReachable != 1 {
+			// log.Infof("checkProxies")
 			conn, err := dial(proxySpec)
 			if err != nil {
 				log.Infof("Test connection to %v: failed. Removing from proxy server list\n", proxySpec)
@@ -485,6 +515,8 @@ func getOriginalDst(clientConn *net.TCPConn) (ipv4 string, port uint16, newTCPCo
 	// IPv4 address starts at the 5th byte, 4 bytes long (206 190 36 45)
 	addr, err := syscall.GetsockoptIPv6Mreq(int(clientConnFile.Fd()), syscall.IPPROTO_IP, SO_ORIGINAL_DST)
 	log.Debugf("getOriginalDst(): SO_ORIGINAL_DST=%+v\n", addr)
+	// log.Infof("getOriginalDst(): SO_ORIGINAL_DST=%+v\n", addr)
+	// log.Infof("GETORIGINALDST|%v error :%v", srcipport, err)
 	if err != nil {
 		log.Infof("GETORIGINALDST|%v->?->FAILEDTOBEDETERMINED|ERR: getsocketopt(SO_ORIGINAL_DST) failed: %v", srcipport, err)
 		return
@@ -561,6 +593,7 @@ func handleDirectConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (
 	}
 
 	ipport := fmt.Sprintf("%s:%d", ipv4, port)
+	// log.Infof("handleDirectConnection")
 	directConn, err := dial(ipport)
 	if err != nil {
 		clientConnRemoteAddr := "?"
@@ -647,7 +680,9 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	for i := 0; i < numProxyServer; i++ {
 
 		proxySpec := gProxyServers[(hashValue+i)%numProxyServer]
+		proxySpec = gProxyServers[0]
 
+		// log.Infof("handleProxyConnection")
 		proxyConn, err = dial(proxySpec)
 		if err != nil {
 			log.Debugf("PROXY|%v->%v->%s:%d|Trying next proxy.", clientConn.RemoteAddr(), proxySpec, ipv4, port)
@@ -661,7 +696,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		connectString := fmt.Sprintf("CONNECT %s:%d HTTP/1.0%s\r\n%s\r\n", ipv4, port, authString, headerXFF)
 		log.Debugf("PROXY|%v->%v->%s:%d|Sending to proxy: %s\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(connectString))
 		// log.Infof("connectString%d : %s", count, connectString)
-		log.Infof("connectString : %d", count)
+		//log.Infof("connectString : %d", count)
 		count += 1
 		fmt.Fprintf(proxyConn, connectString)
 		status, err := bufio.NewReader(proxyConn).ReadString('\n')
@@ -731,6 +766,10 @@ func timeTrack(start time.Time, name string) /*float64 */ {
 
 func handleConnection(clientConn *net.TCPConn) {
 
+	// var wg1 sync.WaitGroup
+	// wg1.Add(1)
+	// wg1.Wait()
+
 	start := time.Now()
 	//change
 	//defer timeTrack(time.Now(), "Request")
@@ -795,20 +834,30 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(strconv.Itoa(int(bytesWritten)))
 	logbuffer.WriteString("\n")
 
-	n, err := net.LookupAddr("31.13.78.35")
+	// n, err := net.LookupAddr("31.13.78.35")
+	n, err := net.LookupAddr(strings.Split(ipv4, ":")[0])
 
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
 	// logbuffer.WriteString(ipv4)
-	logbuffer.WriteString(n[0])
-	logbuffer.WriteString(":")
-	logbuffer.WriteString(strconv.Itoa(int(port)))
+	if len(n) >= 1{
+		logbuffer.WriteString(n[0])
+		logbuffer.WriteString(":")
+		logbuffer.WriteString(strconv.Itoa(int(port)))
+	}else{
+		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+	}
 	logbuffer.WriteString(" ")
 
+	//dash for username
 	logbuffer.WriteString("- ")
 
 	logbuffer.WriteString("HIER_DIRECT/")
-	logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+	if len(n) >= 1{
+                logbuffer.WriteString(n[0])
+        }else{
+                logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+        }
 	logbuffer.WriteString(" ")
 
 	logbuffer.WriteString("- ")

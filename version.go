@@ -1,5 +1,5 @@
 package main
 
-const BUILDTIMESTAMP = 1490189721
-const BUILDUSER      = "jayant"
-const BUILDHOST      = "jayant-XPS-L501X"
+const BUILDTIMESTAMP = 1494260976
+const BUILDUSER      = "root"
+const BUILDHOST      = "anyproxy"
