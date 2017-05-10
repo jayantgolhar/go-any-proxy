@@ -48,3 +48,41 @@ CC VM IP address : 10.201.23.17
 ssh root@10.201.23.17
 
 curl -d "uname=153050062&passwd=jayant@9764718672&submit=Login" --dump-header headers https://internet.iitb.ac.in/index.php
+
+To measure the cpu utilisaiton of all cpu : 
+mpstat -P ALL 1
+
+working PC : 100, 101, 103, 104
+
+Maximum clients from one Machine using Jmeter : 300
+Jmeter plugins
+
+
+Short explanation looks like:
+
+Sample - number of requests sent
+Avg - an Arithmetic mean for all responses (sum of all times / count)
+Minimal response time (ms)
+Maximum response time (ms)
+Deviation - see Standard Deviation article
+Error rate - percentage of failed tests
+Throughput - how many requests per second does your server handle. Larger is better.
+KB/Sec - self expalanatory
+Avg. Bytes - average response size
+
+10.129.40.90  master
+10.129.40.91  slave1
+10.129.40.92   slave2
+10.129.40.93  slave3
+10.129.40.94   slave4
+10.129.40.95   slave5
+
+
+10.129.40.105  master
+10.129.40.106  slave1
+10.129.40.107   slave2
+10.129.40.108  slave3
+10.129.40.109   slave4
+10.129.40.110   slave5
+
+
