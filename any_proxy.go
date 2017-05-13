@@ -306,7 +306,7 @@ func setupLogging() {
 	}
 
 	log.SetLevel(log.INFO)
-	//log.SetLevel(log.WARNING)
+	// log.SetLevel(log.WARNING)
 	if gVerbosity != 0 {
 		log.SetLevel(log.DEBUG)
 	}
@@ -370,6 +370,7 @@ func main() {
 
 	go func() {
 		refreshTime := 1 * time.Second
+		// originalgProxyServers := gProxyServers
 		for {
 			for i := 0; i < len(gProxyServers); i++ {
 				_, err := net.Dial("tcp", gProxyServers[i])
@@ -379,8 +380,28 @@ func main() {
 				}
 			}
 			time.Sleep(refreshTime)
+			log.Info("gProxyServers : ", gProxyServers)
 		}
 	}()
+
+	// maxCount := 0
+	// go func() {
+	// 	refreshTime := 1 * time.Second
+	// 	for {
+	// 		time.Sleep(refreshTime)
+	// 		if connCount > maxCount {
+	// 			maxCount = connCount
+	// 		}
+	// 	}
+	// }()
+
+	// go func() {
+	// 	refreshTime := 10 * time.Second
+	// 	for {
+	// 		time.Sleep(refreshTime)
+	// 		log.Infof("maxCount : %d\n", maxCount)
+	// 	}
+	// }()
 
 	for {
 		conn, err := listener.AcceptTCP()
@@ -679,6 +700,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 
 	for i := 0; i < numProxyServer; i++ {
 
+		numProxyServer := len(gProxyServers)
 		proxySpec := gProxyServers[(hashValue+i)%numProxyServer]
 		proxySpec = gProxyServers[0]
 
@@ -840,11 +862,11 @@ func handleConnection(clientConn *net.TCPConn) {
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
 	// logbuffer.WriteString(ipv4)
-	if len(n) >= 1{
+	if len(n) >= 1 {
 		logbuffer.WriteString(n[0])
 		logbuffer.WriteString(":")
 		logbuffer.WriteString(strconv.Itoa(int(port)))
-	}else{
+	} else {
 		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
 	}
 	logbuffer.WriteString(" ")
@@ -853,11 +875,11 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString("- ")
 
 	logbuffer.WriteString("HIER_DIRECT/")
-	if len(n) >= 1{
-                logbuffer.WriteString(n[0])
-        }else{
-                logbuffer.WriteString(strings.Split(ipv4, ":")[0])
-        }
+	if len(n) >= 1 {
+		logbuffer.WriteString(n[0])
+	} else {
+		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+	}
 	logbuffer.WriteString(" ")
 
 	logbuffer.WriteString("- ")
