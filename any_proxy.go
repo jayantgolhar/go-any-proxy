@@ -76,6 +76,8 @@ var gDirects string
 var gVerbosity int
 var gSkipCheckUpstreamsReachable int
 var gProxyServers []string
+var gUpdatedProxyServers []string
+var gActiveProxyServers []int
 var gAuthProxyServers = map[string]string{}
 var gLogfile string
 var gCpuProfile string
@@ -368,15 +370,32 @@ func main() {
 	// 	}
 	// }()
 
+	//Initilize all proxy server as Active
+	lenProxyServer := len(gProxyServers)
+	for i := 0; i < lenProxyServer; i++ {
+		gActiveProxyServers = append(gActiveProxyServers, 1)
+	}
+
 	go func() {
 		refreshTime := 1 * time.Second
-		// originalgProxyServers := gProxyServers
 		for {
-			for i := 0; i < len(gProxyServers); i++ {
+			for i := 0; i < lenProxyServer; i++ {
 				_, err := net.Dial("tcp", gProxyServers[i])
-				if err != nil {
-					gProxyServers = append(gProxyServers[:i], gProxyServers[i+1:]...)
+				if err != nil && gActiveProxyServers[i] == 1 {
+
+					for j, addr := range gUpdatedProxyServers {
+						if addr == gProxyServers[i] {
+							gUpdatedProxyServers = append(gUpdatedProxyServers[:j], gUpdatedProxyServers[j+1:]...)
+							break
+						}
+					}
+					gActiveProxyServers[i] = 0
+
 					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
+				}
+				if err == nil && gActiveProxyServers[i] == 0 {
+					gUpdatedProxyServers = append(gUpdatedProxyServers[:i], append([]string{gProxyServers[i]}, gUpdatedProxyServers[i:]...)...)
+					gActiveProxyServers[i] = 1
 				}
 			}
 			time.Sleep(refreshTime)
@@ -446,6 +465,7 @@ func checkProxies() {
 			conn.Close()
 		}
 	}
+	gUpdatedProxyServers = gProxyServers
 	// do we have at least one proxy server?
 	if len(gProxyServers) == 0 {
 		msg := "None of the proxy servers specified are available. Exiting."
@@ -697,11 +717,19 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 
 	numProxyServer := len(gProxyServers)
 	hashValue := int(hash(host)) % numProxyServer
+	var proxySpec string
 
 	for i := 0; i < numProxyServer; i++ {
 
-		numProxyServer := len(gProxyServers)
-		proxySpec := gProxyServers[(hashValue+i)%numProxyServer]
+		if gActiveProxyServers[hashValue] == 0 {
+			numProxyServer = len(gUpdatedProxyServers)
+			hashValue = int(hash(host)) % numProxyServer
+			proxySpec = gUpdatedProxyServers[(hashValue+i)%numProxyServer]
+		} else {
+			numProxyServer = len(gProxyServers)
+			proxySpec = gProxyServers[(hashValue+i)%numProxyServer]
+		}
+
 		proxySpec = gProxyServers[0]
 
 		// log.Infof("handleProxyConnection")
