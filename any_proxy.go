@@ -76,6 +76,8 @@ var gDirects string
 var gVerbosity int
 var gSkipCheckUpstreamsReachable int
 var gProxyServers []string
+var gUpdatedProxyServers []string
+var gActiveProxyServers []int
 var gAuthProxyServers = map[string]string{}
 var gLogfile string
 var gCpuProfile string
@@ -306,7 +308,7 @@ func setupLogging() {
 	}
 
 	log.SetLevel(log.INFO)
-	//log.SetLevel(log.WARNING)
+	// log.SetLevel(log.WARNING)
 	if gVerbosity != 0 {
 		log.SetLevel(log.DEBUG)
 	}
@@ -368,19 +370,61 @@ func main() {
 	// 	}
 	// }()
 
+	//Initilize all proxy server as Active
+	lenProxyServer := len(gProxyServers)
+	for i := 0; i < lenProxyServer; i++ {
+		gActiveProxyServers = append(gActiveProxyServers, 1)
+	}
+
+	log.Info("gActiveProxyServers : ", gActiveProxyServers)
+
+	//change is being made in checkproxies().
 	go func() {
-		refreshTime := 1 * time.Second
+		refreshTime := 3 * time.Second
 		for {
-			for i := 0; i < len(gProxyServers); i++ {
+			log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
+			log.Info("gProxyServers : ", gProxyServers)
+			log.Info("gActiveProxyServers : ", gActiveProxyServers)
+			for i := 0; i < lenProxyServer; i++ {
 				_, err := net.Dial("tcp", gProxyServers[i])
-				if err != nil {
-					gProxyServers = append(gProxyServers[:i], gProxyServers[i+1:]...)
+				if err != nil && gActiveProxyServers[i] == 1 {
+
+					for j, addr := range gUpdatedProxyServers {
+						if addr == gProxyServers[i] {
+							gUpdatedProxyServers = append(gUpdatedProxyServers[:j], gUpdatedProxyServers[j+1:]...)
+							break
+						}
+					}
+					gActiveProxyServers[i] = 0
+
 					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
+				} else if err == nil && gActiveProxyServers[i] == 0 {
+					gUpdatedProxyServers = append(gUpdatedProxyServers[:i], append([]string{gProxyServers[i]}, gUpdatedProxyServers[i:]...)...)
+					gActiveProxyServers[i] = 1
 				}
 			}
 			time.Sleep(refreshTime)
 		}
 	}()
+
+	// maxCount := 0
+	// go func() {
+	// 	refreshTime := 1 * time.Second
+	// 	for {
+	// 		time.Sleep(refreshTime)
+	// 		if connCount > maxCount {
+	// 			maxCount = connCount
+	// 		}
+	// 	}
+	// }()
+
+	// go func() {
+	// 	refreshTime := 10 * time.Second
+	// 	for {
+	// 		time.Sleep(refreshTime)
+	// 		log.Infof("maxCount : %d\n", maxCount)
+	// 	}
+	// }()
 
 	for {
 		conn, err := listener.AcceptTCP()
@@ -417,14 +461,15 @@ func checkProxies() {
 			conn, err := dial(proxySpec)
 			if err != nil {
 				log.Infof("Test connection to %v: failed. Removing from proxy server list\n", proxySpec)
-				a := gProxyServers[:i]
-				b := gProxyServers[i+1:]
-				gProxyServers = append(a, b...)
+				// a := gProxyServers[:i]
+				// b := gProxyServers[i+1:]
+				// gProxyServers = append(a, b...)
 				continue
 			}
 			conn.Close()
 		}
 	}
+	gUpdatedProxyServers = gProxyServers
 	// do we have at least one proxy server?
 	if len(gProxyServers) == 0 {
 		msg := "None of the proxy servers specified are available. Exiting."
@@ -676,10 +721,19 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 
 	numProxyServer := len(gProxyServers)
 	hashValue := int(hash(host)) % numProxyServer
+	var proxySpec string
 
 	for i := 0; i < numProxyServer; i++ {
 
-		proxySpec := gProxyServers[(hashValue+i)%numProxyServer]
+		if gActiveProxyServers[hashValue] == 0 {
+			numProxyServer = len(gUpdatedProxyServers)
+			hashValue = int(hash(host)) % numProxyServer
+			proxySpec = gUpdatedProxyServers[(hashValue+i)%numProxyServer]
+		} else {
+			numProxyServer = len(gProxyServers)
+			proxySpec = gProxyServers[(hashValue+i)%numProxyServer]
+		}
+
 		proxySpec = gProxyServers[0]
 
 		// log.Infof("handleProxyConnection")
@@ -840,11 +894,11 @@ func handleConnection(clientConn *net.TCPConn) {
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
 	// logbuffer.WriteString(ipv4)
-	if len(n) >= 1{
+	if len(n) >= 1 {
 		logbuffer.WriteString(n[0])
 		logbuffer.WriteString(":")
 		logbuffer.WriteString(strconv.Itoa(int(port)))
-	}else{
+	} else {
 		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
 	}
 	logbuffer.WriteString(" ")
@@ -853,11 +907,11 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString("- ")
 
 	logbuffer.WriteString("HIER_DIRECT/")
-	if len(n) >= 1{
-                logbuffer.WriteString(n[0])
-        }else{
-                logbuffer.WriteString(strings.Split(ipv4, ":")[0])
-        }
+	if len(n) >= 1 {
+		logbuffer.WriteString(n[0])
+	} else {
+		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+	}
 	logbuffer.WriteString(" ")
 
 	logbuffer.WriteString("- ")
