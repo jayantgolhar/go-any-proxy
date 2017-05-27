@@ -1,6 +1,6 @@
 #!/bin/bash
 
-i=10
+i=0
 
 conc[0]=100
 conc[1]=200
@@ -23,6 +23,20 @@ conc[17]=1800
 conc[18]=1900
 conc[19]=2000
 
+conc[20]=2250
+conc[21]=2500
+conc[22]=2750
+conc[23]=3000
+conc[24]=3250
+conc[25]=3500
+conc[26]=3750
+conc[27]=4000
+conc[28]=4250
+conc[29]=4500
+conc[30]=4750
+conc[31]=5000
+
+
 
 # conc[0]=1
 # conc[1]=250
@@ -32,6 +46,7 @@ conc[19]=2000
 # conc[5]=1500
 # conc[6]=1750
 # conc[7]=2000
+
 # conc[8]=2250
 # conc[9]=2500
 # conc[10]=2750
@@ -45,13 +60,13 @@ conc[19]=2000
 # conc[18]=4750
 # conc[19]=5000
 
-finalresult="transparentproxy"
+finalresult="netmonproxy"
 #finalresult="netmonproxy"
 
 # echo "Concurrency Level,Time taken for tests,Complete requests,Failed requests,Non-2xx responses,Keep-Alive requests,Total transferred,HTML transferred,Requests per second,Time per request,Time per request,Transfer rate" > summary-$finalresult
 
 iteration=10
-count=20
+count=32
 
 while test $i != $count
 do 
@@ -59,8 +74,8 @@ do
 
 	while test $j != $iteration
 	do 
-		# jmeter -n -t jmtest_${conc[$i]}.jmx -r -j results_${conc[$i]}.jtl
-		ab -c${conc[$i]} -n3500 https://www.google.com/gmail/ > intermediate_output
+		# ab -c${conc[$i]} -n10000 https://www.google.com/gmail/ > intermediate_output
+		ab -c${conc[$i]} -n10000 -X 10.201.23.1:80 http://www.google.com/gmail/ > intermediate_output
 
 		tail -n 29 intermediate_output | head -n 11 | awk 'BEGIN{FS=":"} {print $2}' | awk 'BEGIN{FS=" "} {print $1}' | awk 'BEGIN { ORS = "," } { print } END{printf "\n"}' >> semiresult_${finalresult}_${conc[$i]}
 		j=`expr $j + 1`
