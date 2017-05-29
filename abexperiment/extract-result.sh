@@ -23,6 +23,20 @@ conc[17]=1800
 conc[18]=1900
 conc[19]=2000
 
+conc[20]=2250
+conc[21]=2500
+conc[22]=2750
+conc[23]=3000
+conc[24]=3250
+conc[25]=3500
+conc[26]=3750
+conc[27]=4000
+conc[28]=4250
+conc[29]=4500
+conc[30]=4750
+conc[31]=5000
+
+
 
 finalresult="anyproxy-nolocking"
 #finalresult="netmonproxy"
@@ -30,12 +44,13 @@ finalresult="anyproxy-nolocking"
 echo "Concurrency Level,Time taken for tests,Complete requests,Failed requests,Non-2xx responses,Total transferred,HTML transferred,Requests per second,Time per request,Time per request,Transfer rate" > summary-$finalresult
 
 iteration=10
-count=20
+count=32
 
 while test $i != $count
 do 
 	awk 'BEGIN{FS=","} { for (i = 1; i <= NF-1; i++) sum[i] += $i } END { if (NR > 0) for (i = 1; i <= NF-1; i++){ printf "%.2f,", sum[i] / NR} printf "\n" }' semiresult_${finalresult}_${conc[$i]} >> summary-$finalresult
 	# rm semiresultnetmon_anyproxy
+	# echo semiresult_${finalresult}_${conc[$i]}
 
 	i=`expr $i + 1`
 done
