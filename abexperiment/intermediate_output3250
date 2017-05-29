@@ -1,0 +1,44 @@
+This is ApacheBench, Version 2.3 <$Revision: 1638069 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.google.com (be patient)
+
+
+Server Software:        sffe
+Server Hostname:        www.google.com
+Server Port:            443
+SSL/TLS Protocol:       TLSv1.2,ECDHE-RSA-AES128-GCM-SHA256,2048,128
+
+Document Path:          /gmail/
+Document Length:        226 bytes
+
+Concurrency Level:      3250
+Time taken for tests:   7.885 seconds
+Complete requests:      5000
+Failed requests:        0
+Non-2xx responses:      5000
+Total transferred:      2710000 bytes
+HTML transferred:       1130000 bytes
+Requests per second:    634.14 [#/sec] (mean)
+Time per request:       5125.030 [ms] (mean)
+Time per request:       1.577 [ms] (mean, across all concurrent requests)
+Transfer rate:          335.65 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       79  845 892.0    476    3715
+Processing:    58  218 386.0     88    6697
+Waiting:       58  190 361.6     82    6697
+Total:        140 1064 957.9    726    7847
+
+Percentage of the requests served within a certain time (ms)
+  50%    726
+  66%   1163
+  75%   1605
+  80%   1916
+  90%   2506
+  95%   3125
+  98%   3482
+  99%   3541
+ 100%   7847 (longest request)

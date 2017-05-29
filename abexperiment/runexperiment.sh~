@@ -60,16 +60,12 @@ conc[31]=5000
 # conc[18]=4750
 # conc[19]=5000
 
-finalresult="netmonproxy"
+finalresult="transparentproxy"
 #finalresult="netmonproxy"
 
 # echo "Concurrency Level,Time taken for tests,Complete requests,Failed requests,Non-2xx responses,Keep-Alive requests,Total transferred,HTML transferred,Requests per second,Time per request,Time per request,Transfer rate" > summary-$finalresult
 
-<<<<<<< HEAD
-iteration=10
-=======
 iteration=2
->>>>>>> 6773114ef7f3b8385e491e81bc95c99bea28642e
 count=32
 
 while test $i != $count
@@ -78,13 +74,8 @@ do
 
 	while test $j != $iteration
 	do 
-<<<<<<< HEAD
-		# ab -c${conc[$i]} -n10000 https://www.google.com/gmail/ > intermediate_output
-		ab -c${conc[$i]} -n10000 -X 10.201.23.1:80 http://www.google.com/gmail/ > intermediate_output
-=======
 		 ab -c${conc[$i]} -n5000 https://www.google.com/gmail/ > intermediate_output
 		#ab -c${conc[$i]} -n10000 -X 10.201.23.1:80 http://www.google.com/gmail/ > intermediate_output
->>>>>>> 6773114ef7f3b8385e491e81bc95c99bea28642e
 
 		tail -n 29 intermediate_output | head -n 11 | awk 'BEGIN{FS=":"} {print $2}' | awk 'BEGIN{FS=" "} {print $1}' | awk 'BEGIN { ORS = "," } { print } END{printf "\n"}' >> semiresult_${finalresult}_${conc[$i]}
 		j=`expr $j + 1`
