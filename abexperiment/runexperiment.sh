@@ -1,7 +1,5 @@
 #!/bin/bash
 
-i=0
-
 conc[0]=100
 conc[1]=200
 conc[2]=300
@@ -36,41 +34,25 @@ conc[29]=4500
 conc[30]=4750
 conc[31]=5000
 
+conc[32]=5500
+conc[33]=6000
+conc[34]=6500
+conc[35]=7000
+conc[36]=7500
+conc[37]=8000
+conc[38]=8500
+conc[39]=9000
+conc[40]=9500
+conc[41]=10000
 
-
-# conc[0]=1
-# conc[1]=250
-# conc[2]=500
-# conc[3]=1000
-# conc[4]=1250
-# conc[5]=1500
-# conc[6]=1750
-# conc[7]=2000
-
-# conc[8]=2250
-# conc[9]=2500
-# conc[10]=2750
-# conc[11]=3000
-# conc[12]=3250
-# conc[13]=3500
-# conc[14]=3750
-# conc[15]=4000
-# conc[16]=4250
-# conc[17]=4500
-# conc[18]=4750
-# conc[19]=5000
-
-finalresult="netmonproxy"
+finalresult="transparentproxy"
 #finalresult="netmonproxy"
 
 # echo "Concurrency Level,Time taken for tests,Complete requests,Failed requests,Non-2xx responses,Keep-Alive requests,Total transferred,HTML transferred,Requests per second,Time per request,Time per request,Transfer rate" > summary-$finalresult
 
-<<<<<<< HEAD
-iteration=10
-=======
-iteration=2
->>>>>>> 6773114ef7f3b8385e491e81bc95c99bea28642e
-count=32
+i=41
+iteration=3
+count=42
 
 while test $i != $count
 do 
@@ -78,13 +60,10 @@ do
 
 	while test $j != $iteration
 	do 
-<<<<<<< HEAD
 		# ab -c${conc[$i]} -n10000 https://www.google.com/gmail/ > intermediate_output
-		ab -c${conc[$i]} -n10000 -X 10.201.23.1:80 http://www.google.com/gmail/ > intermediate_output
-=======
-		 ab -c${conc[$i]} -n5000 https://www.google.com/gmail/ > intermediate_output
+		# ab -c${conc[$i]} -n10000 -X 10.201.23.1:80 http://www.google.com/gmail/ > intermediate_output
+		ab -c${conc[$i]} -n10000 https://www.google.com/gmail/ > intermediate_output
 		#ab -c${conc[$i]} -n10000 -X 10.201.23.1:80 http://www.google.com/gmail/ > intermediate_output
->>>>>>> 6773114ef7f3b8385e491e81bc95c99bea28642e
 
 		tail -n 29 intermediate_output | head -n 11 | awk 'BEGIN{FS=":"} {print $2}' | awk 'BEGIN{FS=" "} {print $1}' | awk 'BEGIN { ORS = "," } { print } END{printf "\n"}' >> semiresult_${finalresult}_${conc[$i]}
 		j=`expr $j + 1`
@@ -93,7 +72,7 @@ do
 		sleep 3s
 	done
 
-	awk 'BEGIN{FS=","} { for (i = 1; i <= NF; i++) sum[i] += $i } END { if (NR > 0) for (i = 1; i <= NF; i++){ printf "%.2f,", sum[i] / NR} printf "\n" }' semiresult_${finalresult}_${conc[$i]} >> summary-$finalresult
+	# awk 'BEGIN{FS=","} { for (i = 1; i <= NF; i++) sum[i] += $i } END { if (NR > 0) for (i = 1; i <= NF; i++){ printf "%.2f,", sum[i] / NR} printf "\n" }' semiresult_${finalresult}_${conc[$i]} >> summary-$finalresult
 	# rm semiresultnetmon_anyproxy
 
 	i=`expr $i + 1`
