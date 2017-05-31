@@ -1,6 +1,5 @@
 #!/bin/bash
 
-i=0
 
 conc[0]=100
 conc[1]=200
@@ -36,6 +35,17 @@ conc[29]=4500
 conc[30]=4750
 conc[31]=5000
 
+conc[32]=5500
+conc[33]=6000
+conc[34]=6500
+conc[35]=7000
+conc[36]=7500
+conc[37]=8000
+conc[38]=8500
+conc[39]=9000
+conc[40]=9500
+conc[41]=10000
+
 
 
 finalresult="transparentproxy"
@@ -43,8 +53,9 @@ finalresult="transparentproxy"
 
 echo "Concurrency Level,Time taken for tests,Complete requests,Failed requests,Non-2xx responses,Total transferred,HTML transferred,Requests per second,Time per request,Time per request,Transfer rate" > summary-$finalresult
 
+i=0
 iteration=10
-count=32
+count=42
 
 while test $i != $count
 do 
