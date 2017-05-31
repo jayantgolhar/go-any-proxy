@@ -2,6 +2,7 @@
 GraphName=$1
 datafolder="../"
 fileinitials=$datafolder"summary"
+noofGraph=4
 
 inputfile1=$fileinitials-anyproxy-nologging
 graphlabel1="Anyproxy-No-Logging"
@@ -21,7 +22,7 @@ fileinitials="summary"
 ./run-general-graph-plot.sh \
 common-graph.plot \
 total-time \
-3 \
+$noofGraph \
 $inputfile1 $graphlabel1 \
 $inputfile2 $graphlabel2 \
 $inputfile3 $graphlabel3 \
@@ -37,7 +38,7 @@ fileinitials="summary"
 ./run-general-graph-plot.sh \
 common-graph.plot \
 throughput \
-3 \
+$noofGraph \
 $inputfile1 $graphlabel1 \
 $inputfile2 $graphlabel2 \
 $inputfile3 $graphlabel3 \
@@ -52,7 +53,7 @@ $inputfile5 $graphlabel5 \
 ./run-general-graph-plot.sh \
 common-graph.plot \
 average-response-time \
-3 \
+$noofGraph \
 $inputfile1 $graphlabel1 \
 $inputfile2 $graphlabel2 \
 $inputfile3 $graphlabel3 \
@@ -67,7 +68,7 @@ $inputfile5 $graphlabel5 \
 ./run-general-graph-plot.sh \
 common-graph.plot \
 average-response-time-concurrent \
-3 \
+$noofGraph \
 $inputfile1 $graphlabel1 \
 $inputfile2 $graphlabel2 \
 $inputfile3 $graphlabel3 \
@@ -82,7 +83,7 @@ $inputfile5 $graphlabel5 \
 ./run-general-graph-plot.sh \
 common-graph.plot \
 transfer-rate \
-3 \
+$noofGraph \
 $inputfile1 $graphlabel1 \
 $inputfile2 $graphlabel2 \
 $inputfile3 $graphlabel3 \
