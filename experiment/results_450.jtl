@@ -1,161 +1,161 @@
-2017/05/09 19:26:53 INFO  - jmeter.util.JMeterUtils: Setting Locale to en_IN 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Loading user properties from: /usr/share/jmeter/bin/user.properties 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Loading system properties from: /usr/share/jmeter/bin/system.properties 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Copyright (c) 1998-2014 The Apache Software Foundation 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Version 2.11.20150716 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: java.version=1.7.0_80 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: os.name=Linux 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: os.arch=amd64 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: os.version=4.2.0-42-generic 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: file.encoding=UTF-8 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Default Locale=English (India) 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: JMeter  Locale=English (India) 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: JMeterHome=/usr/share/jmeter 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: user.dir  =/home/jayant/go-program/MTP/experiment 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: PWD       =/home/jayant/go-program/MTP/experiment 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: IP: 10.129.40.90 Name: master FullName: master 
-2017/05/09 19:26:53 INFO  - jmeter.services.FileServer: Default base='/home/jayant/go-program/MTP/experiment' 
-2017/05/09 19:26:53 INFO  - jmeter.services.FileServer: Set new base='/home/jayant/go-program/MTP/experiment' 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Loading file: jmtest_450.jmx 
-2017/05/09 19:26:53 INFO  - jmeter.save.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2 
-2017/05/09 19:26:53 INFO  - jmeter.save.SaveService: Using SaveService properties file encoding UTF-8 
-2017/05/09 19:26:53 INFO  - jmeter.save.SaveService: Using SaveService properties version 2.6 
-2017/05/09 19:26:53 INFO  - jmeter.save.SaveService: Using SaveService properties file version 1554411 
-2017/05/09 19:26:53 INFO  - jmeter.save.SaveService: All converter versions present and correct 
-2017/05/09 19:26:53 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Cannot find .className property for htmlParser, using default 
-2017/05/09 19:26:53 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/html is  
-2017/05/09 19:26:53 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xhtml+xml is  
-2017/05/09 19:26:53 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xml is  
-2017/05/09 19:26:53 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/xml is  
-2017/05/09 19:26:53 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Creating summariser <summary> 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Configuring remote engine for 127.0.0.1 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.91 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.92 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.93 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.94 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.95 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Starting remote engines 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
-2017/05/09 19:26:53 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must contain the string: '.functions.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must not contain the string: '.gui.' 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 127.0.0.1 basedir='.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 127.0.0.1 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Started remote host:  127.0.0.1 (1494338213724) 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.91 basedir='.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.91 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Started remote host:  10.129.40.91 (1494338213751) 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.92 basedir='.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.92 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Started remote host:  10.129.40.92 (1494338213769) 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.93 basedir='.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.93 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Started remote host:  10.129.40.93 (1494338213786) 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.94 basedir='.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.94 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
-2017/05/09 19:26:53 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Started remote host:  10.129.40.94 (1494338213821) 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.95 basedir='.' 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
-2017/05/09 19:26:53 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.95 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Remote engines have been started 
-2017/05/09 19:26:53 INFO  - jmeter.JMeter: Started remote host:  10.129.40.95 (1494338213831) 
-2017/05/09 19:26:54 INFO  - jmeter.samplers.SampleResult: Note: Sample TimeStamps are START times 
-2017/05/09 19:26:54 INFO  - jmeter.samplers.SampleResult: sampleresult.default.encoding is set to ISO-8859-1 
-2017/05/09 19:26:54 INFO  - jmeter.samplers.SampleResult: sampleresult.useNanoTime=true 
-2017/05/09 19:26:54 INFO  - jmeter.samplers.SampleResult: sampleresult.nanoThreadSleep=5000 
-2017/05/09 19:27:00 INFO  - jmeter.reporters.Summariser: summary +   1607 in   368s =    4.4/s Avg:  2846 Min:   771 Max:  5854 Err:     0 (0.00%) Active: 616 Started: 2690 Finished: 2084 
-2017/05/09 19:27:41 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.93 (1494338261180) 
-2017/05/09 19:27:45 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.95 (1494338265887) 
-2017/05/09 19:27:51 INFO  - jmeter.JMeter: Finished remote host: 127.0.0.1 (1494338271049) 
-2017/05/09 19:27:53 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.92 (1494338273875) 
-2017/05/09 19:29:01 INFO  - jmeter.reporters.Summariser: summary +    996 in   375s =    2.7/s Avg: 10017 Min:  3077 Max: 59938 Err:   124 (12.45%) Active: 3 Started: 2690 Finished: 2697 
-2017/05/09 19:29:01 INFO  - jmeter.reporters.Summariser: summary =   2603 in   375s =    6.9/s Avg:  5590 Min:   771 Max: 59938 Err:   124 (4.76%) 
-2017/05/09 19:29:01 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.94 (1494338341234) 
-2017/05/09 19:29:01 INFO  - jmeter.reporters.Summariser: summary +     97 in   298s =    0.3/s Avg: 26822 Min:  5838 Max: 127344 Err:    49 (50.52%) Active: 0 Started: 2690 Finished: 2700 
-2017/05/09 19:29:01 INFO  - jmeter.reporters.Summariser: summary =   2700 in   490s =    5.5/s Avg:  6353 Min:   771 Max: 127344 Err:   173 (6.41%) 
-2017/05/09 19:29:01 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.91 (1494338341394) 
-2017/05/09 19:29:06 INFO  - jmeter.JMeter: Interrupting RMI Reaper 
+2017/05/12 18:58:03 INFO  - jmeter.util.JMeterUtils: Setting Locale to en_IN 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: Loading user properties from: /usr/share/jmeter/bin/user.properties 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: Loading system properties from: /usr/share/jmeter/bin/system.properties 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: Copyright (c) 1998-2014 The Apache Software Foundation 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: Version 2.11.20150716 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: java.version=1.7.0_80 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: os.name=Linux 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: os.arch=amd64 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: os.version=4.2.0-42-generic 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: file.encoding=UTF-8 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: Default Locale=English (India) 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: JMeter  Locale=English (India) 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: JMeterHome=/usr/share/jmeter 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: user.dir  =/home/jayant/go-program/MTP/go-any-proxy/experiment 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: PWD       =/home/jayant/go-program/MTP/go-any-proxy/experiment 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: IP: 10.129.40.90 Name: master FullName: master 
+2017/05/12 18:58:03 INFO  - jmeter.services.FileServer: Default base='/home/jayant/go-program/MTP/go-any-proxy/experiment' 
+2017/05/12 18:58:03 INFO  - jmeter.services.FileServer: Set new base='/home/jayant/go-program/MTP/go-any-proxy/experiment' 
+2017/05/12 18:58:03 INFO  - jmeter.JMeter: Loading file: jmtest_450.jmx 
+2017/05/12 18:58:03 INFO  - jmeter.save.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2 
+2017/05/12 18:58:03 INFO  - jmeter.save.SaveService: Using SaveService properties file encoding UTF-8 
+2017/05/12 18:58:04 INFO  - jmeter.save.SaveService: Using SaveService properties version 2.6 
+2017/05/12 18:58:04 INFO  - jmeter.save.SaveService: Using SaveService properties file version 1554411 
+2017/05/12 18:58:04 INFO  - jmeter.save.SaveService: All converter versions present and correct 
+2017/05/12 18:58:04 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Cannot find .className property for htmlParser, using default 
+2017/05/12 18:58:04 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/html is  
+2017/05/12 18:58:04 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xhtml+xml is  
+2017/05/12 18:58:04 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xml is  
+2017/05/12 18:58:04 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/xml is  
+2017/05/12 18:58:04 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Creating summariser <summary> 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Configuring remote engine for 127.0.0.1 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.91 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.92 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.93 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.94 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Configuring remote engine for 10.129.40.95 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Starting remote engines 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
+2017/05/12 18:58:04 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must contain the string: '.functions.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must not contain the string: '.gui.' 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 127.0.0.1 basedir='.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 127.0.0.1 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Started remote host:  127.0.0.1 (1494595684403) 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.91 basedir='.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.91 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Started remote host:  10.129.40.91 (1494595684425) 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.92 basedir='.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.92 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Started remote host:  10.129.40.92 (1494595684461) 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.93 basedir='.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.93 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Started remote host:  10.129.40.93 (1494595684476) 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.94 basedir='.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.94 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: running clientengine run method 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Started remote host:  10.129.40.94 (1494595684495) 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.BatchSampleSender: Using batching (client settings) for this run. Thresholds: num=100, time=60000 
+2017/05/12 18:58:04 INFO  - jmeter.samplers.DataStrippingSampleSender: Using DataStrippingSampleSender for this run 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent test to 10.129.40.95 basedir='.' 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: Sending properties {} 
+2017/05/12 18:58:04 INFO  - jmeter.engine.ClientJMeterEngine: sent run command to 10.129.40.95 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Remote engines have been started 
+2017/05/12 18:58:04 INFO  - jmeter.JMeter: Started remote host:  10.129.40.95 (1494595684517) 
+2017/05/12 18:58:05 INFO  - jmeter.samplers.SampleResult: Note: Sample TimeStamps are START times 
+2017/05/12 18:58:05 INFO  - jmeter.samplers.SampleResult: sampleresult.default.encoding is set to ISO-8859-1 
+2017/05/12 18:58:05 INFO  - jmeter.samplers.SampleResult: sampleresult.useNanoTime=true 
+2017/05/12 18:58:05 INFO  - jmeter.samplers.SampleResult: sampleresult.nanoThreadSleep=5000 
+2017/05/12 18:58:05 INFO  - jmeter.reporters.Summariser: summary +      1 in   1.0s =    1.0/s Avg:  1050 Min:  1050 Max:  1050 Err:     0 (0.00%) Active: 2383 Started: 2372 Finished: 0 
+2017/05/12 18:59:10 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.93 (1494595750895) 
+2017/05/12 18:59:25 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.95 (1494595765378) 
+2017/05/12 18:59:29 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.91 (1494595769706) 
+2017/05/12 18:59:36 INFO  - jmeter.JMeter: Finished remote host: 127.0.0.1 (1494595776674) 
+2017/05/12 18:59:59 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.94 (1494595799308) 
+2017/05/12 19:00:02 INFO  - jmeter.reporters.Summariser: summary +   2698 in   468s =    5.8/s Avg:  6315 Min:  1004 Max: 114259 Err:    49 (1.82%) Active: 0 Started: 2689 Finished: 2700 
+2017/05/12 19:00:02 INFO  - jmeter.reporters.Summariser: summary =   2699 in   468s =    5.8/s Avg:  6313 Min:  1004 Max: 114259 Err:    49 (1.82%) 
+2017/05/12 19:00:02 INFO  - jmeter.reporters.Summariser: summary +      1 in   117s =    0.0/s Avg: 117095 Min: 117095 Max: 117095 Err:     1 (100.00%) Active: 0 Started: 2689 Finished: 2700 
+2017/05/12 19:00:02 INFO  - jmeter.reporters.Summariser: summary =   2700 in   468s =    5.8/s Avg:  6354 Min:  1004 Max: 117095 Err:    50 (1.85%) 
+2017/05/12 19:00:02 INFO  - jmeter.JMeter: Finished remote host: 10.129.40.92 (1494595802060) 
+2017/05/12 19:00:07 INFO  - jmeter.JMeter: Interrupting RMI Reaper 

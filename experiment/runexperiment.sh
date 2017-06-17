@@ -23,31 +23,32 @@ conc[10]=500
 # loop[5]=250
 # loop[6]=200
 
-finalresult="summary-anyproxy-logging"
+finalresult="netmonproxy"
+#finalresult="netmonproxy"
 
-echo "Connections,Total Time(s),Throughput,Average Time(ms),Min Time(ms),Max Time(ms),Error(%)" > $finalresult
+echo "Connections,Total Time(s),Throughput,Average Time(ms),Min Time(ms),Max Time(ms),Error(%)" > summary-$finalresult
 iteration=10
 count=11
 
 while test $i != $count
 do 
-	# j=0
-	# sed 's/_con_/'${conc[$i]}'/g' mytest.jmx > jmtest_${conc[$i]}.jmx
+	j=0
+	sed 's/_con_/'${conc[$i]}'/g' mytest.jmx > jmtest_${conc[$i]}.jmx
 
-	# while test $j != $iteration
-	# do 
-	# 	jmeter -n -t jmtest_${conc[$i]}.jmx -r -j results_${conc[$i]}.jtl
+	while test $j != $iteration
+	do 
+		jmeter -n -t jmtest_${conc[$i]}.jmx -r -j results_${conc[$i]}.jtl
 
-	# 	tail -n 3 results_${conc[$i]}.jtl | head -n 1 | awk 'BEGIN{FS=" "} {print $8 "," $10 "," $12 "," $14 "," $16 "," $18 "," $21 }' >> semiresult_${conc[$i]}
-	# 	j=`expr $j + 1`
-	# 	sed -i -e 's/[)(]//g' semiresult_${conc[$i]}
-	# 	cat semiresult_${conc[$i]}
-	# 	echo "sleep"
-	# 	sleep 10s
-	# done
+		tail -n 3 results_${conc[$i]}.jtl | head -n 1 | awk 'BEGIN{FS=" "} {print $8 "," $10 "," $12 "," $14 "," $16 "," $18 "," $21 }' >> semiresultnetmon_${conc[$i]}
+		j=`expr $j + 1`
+		sed -i -e 's/[)(]//g' semiresultnetmon_${conc[$i]}
+		cat semiresultnetmon_${conc[$i]}
+		echo "sleep"
+		sleep 10s
+	done
 
-	awk 'BEGIN{FS=","} { for (i = 1; i <= NF; i++) sum[i] += $i } END { if (NR > 0) for (i = 1; i <= NF; i++){ printf "%.2f,", sum[i] / NR} printf "\n" }' semiresult_${conc[$i]} >> $finalresult
-	# rm semiresult
+	awk 'BEGIN{FS=","} { for (i = 1; i <= NF; i++) sum[i] += $i } END { if (NR > 0) for (i = 1; i <= NF; i++){ printf "%.2f,", sum[i] / NR} printf "\n" }' semiresultnetmon_${conc[$i]} >> summary-$finalresult
+	# rm semiresultnetmon_anyproxy
 
 	i=`expr $i + 1`
 done
