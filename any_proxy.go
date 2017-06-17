@@ -58,6 +58,7 @@ import (
 	// "reflect"
 	"runtime"
 	"runtime/pprof"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -345,6 +346,7 @@ func main() {
 	if gProxyServerSpec != "" {
 		checkProxies()
 	}
+	sort.Strings(gProxyServers)
 
 	lnaddr, err := net.ResolveTCPAddr("tcp", gListenAddrPort)
 	if err != nil {
@@ -374,17 +376,25 @@ func main() {
 	lenProxyServer := len(gProxyServers)
 	for i := 0; i < lenProxyServer; i++ {
 		gActiveProxyServers = append(gActiveProxyServers, 1)
+		gUpdatedProxyServers = append(gUpdatedProxyServers, gProxyServers[i])
 	}
 
 	log.Info("gActiveProxyServers : ", gActiveProxyServers)
+	// log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
+	// log.Info("gProxyServers        : ", gProxyServers)
+	// // gProxyServers[0] = "jayant"
+	// gUpdatedProxyServers[0] = "jayant"
+	// log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
+	// log.Info("gProxyServers        : ", gProxyServers)
 
 	//change is being made in checkproxies().
-	go func() {
+	/*go func() {
 		refreshTime := 3 * time.Second
 		for {
 			log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
 			log.Info("gProxyServers : ", gProxyServers)
 			log.Info("gActiveProxyServers : ", gActiveProxyServers)
+			log.Info("***********************************************************")
 			for i := 0; i < lenProxyServer; i++ {
 				_, err := net.Dial("tcp", gProxyServers[i])
 				if err != nil && gActiveProxyServers[i] == 1 {
@@ -403,6 +413,39 @@ func main() {
 					gActiveProxyServers[i] = 1
 				}
 			}
+			time.Sleep(refreshTime)
+		}
+	}()*/
+
+	go func() {
+		stepCount := 1
+		refreshTime := 15 * time.Second
+		for {
+			for i := 0; i < lenProxyServer; i++ {
+				_, err := net.Dial("tcp", gProxyServers[i])
+				if err != nil && gActiveProxyServers[i] == 1 {
+
+					for j, addr := range gUpdatedProxyServers {
+						if addr == gProxyServers[i] {
+							gUpdatedProxyServers = append(gUpdatedProxyServers[:j], gUpdatedProxyServers[j+1:]...)
+							break
+						}
+					}
+					gActiveProxyServers[i] = 0
+
+					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
+				} else if err == nil && gActiveProxyServers[i] == 0 {
+					gUpdatedProxyServers = append([]string{gProxyServers[i]}, gUpdatedProxyServers[:]...)
+					sort.Strings(gUpdatedProxyServers)
+					gActiveProxyServers[i] = 1
+				}
+			}
+			log.Info("Step : ", stepCount)
+			stepCount++
+			log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
+			log.Info("gProxyServers        : ", gProxyServers)
+			log.Info("gActiveProxyServers  : ", gActiveProxyServers)
+			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
 	}()
@@ -469,7 +512,6 @@ func checkProxies() {
 			conn.Close()
 		}
 	}
-	gUpdatedProxyServers = gProxyServers
 	// do we have at least one proxy server?
 	if len(gProxyServers) == 0 {
 		msg := "None of the proxy servers specified are available. Exiting."
