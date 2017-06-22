@@ -71,6 +71,8 @@ const SO_ORIGINAL_DST = 80
 const DEFAULTLOG = "/var/log/any_proxy.log"
 const STATSFILE = "/var/log/any_proxy.stats"
 
+var hashCount []int
+
 var gListenAddrPort string
 var gProxyServerSpec string
 var gDirects string
@@ -327,6 +329,10 @@ func main() {
 	if gListenAddrPort == "" {
 		flag.Usage()
 		os.Exit(1)
+	}
+
+	for i := 0; i < 5; i++ {
+		hashCount = append(hashCount, 0)
 	}
 
 	setupLogging()
@@ -764,12 +770,6 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	numProxyServer := len(gProxyServers)
 	hashValue := int(hash(host)) % numProxyServer
 	var proxySpec string
-
-	var hashCount []int
-
-	for i := 0; i < 5; i++ {
-		hashCount = append(hashCount, 0)
-	}
 
 	for i := 0; i < numProxyServer; i++ {
 
