@@ -833,6 +833,13 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 			httpStatusCode = 301
 			return
 		}
+		if strings.Contains(status, "503") {
+			log.Debugf("PROXY|%v->%v->%s:%d|Status from proxy=%s (Service Unavailable), relaying response to client", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
+			fmt.Fprintf(clientConn, status)
+			copy(clientConn, proxyConn, "client", "proxyserver", &wg, &bytesProxyClient)
+			httpStatusCode = 503
+			return
+		}
 		if strings.Contains(status, "200") == false {
 			log.Infof("PROXY|%v->%v->%s:%d|ERR: Proxy response to CONNECT was: %s. Trying next proxy.\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
 			incrProxyNon200Responses()
