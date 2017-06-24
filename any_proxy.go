@@ -780,14 +780,14 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 			}
 			hashValue = int(hash(host)) % numProxyServer
 			proxySpec = gUpdatedProxyServers[(hashValue+i)%numProxyServer]
-			// hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
+			hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		} else {
 			numProxyServer = len(gProxyServers)
 			if numProxyServer == 0 {
 				return
 			}
 			proxySpec = gProxyServers[(hashValue+i)%numProxyServer]
-			// hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
+			hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		}
 
 		// proxySpec = gProxyServers[0]
