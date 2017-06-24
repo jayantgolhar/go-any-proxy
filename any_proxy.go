@@ -71,7 +71,7 @@ const SO_ORIGINAL_DST = 80
 const DEFAULTLOG = "/var/log/any_proxy.log"
 const STATSFILE = "/var/log/any_proxy.stats"
 
-// var hashCount []int
+var hashCount []int
 
 var gListenAddrPort string
 var gProxyServerSpec string
@@ -331,9 +331,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	// for i := 0; i < 5; i++ {
-	// 	hashCount = append(hashCount, 0)
-	// }
+	for i := 0; i < 5; i++ {
+		hashCount = append(hashCount, 0)
+	}
 
 	setupLogging()
 	setupProfiling()
@@ -775,17 +775,23 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 
 		if gActiveProxyServers[hashValue] == 0 {
 			numProxyServer = len(gUpdatedProxyServers)
+			if numProxyServer == 0 {
+				return
+			}
 			hashValue = int(hash(host)) % numProxyServer
 			proxySpec = gUpdatedProxyServers[(hashValue+i)%numProxyServer]
 			// hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		} else {
 			numProxyServer = len(gProxyServers)
+			if numProxyServer == 0 {
+				return
+			}
 			proxySpec = gProxyServers[(hashValue+i)%numProxyServer]
 			// hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		}
 
-		proxySpec = gProxyServers[0]
-		// log.Infof("hashCount : ", hashCount)
+		// proxySpec = gProxyServers[0]
+		log.Infof("hashCount : ", hashCount)
 
 		// log.Infof("handleProxyConnection")
 		proxyConn, err = dial(proxySpec)
