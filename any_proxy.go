@@ -367,16 +367,6 @@ func main() {
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
 	connCount := 0
-	// connChan := make(chan *net.TCPConn, 10000)
-	// noofConnAtOnce := 20
-	// go func() {
-	// 	for {
-	// 		for i := 0; i < noofConnAtOnce; i++ {
-	// 			go handleConnection(<-connChan)
-	// 		}
-	// 		time.Sleep(1 * time.Second)
-	// 	}
-	// }()
 
 	//Initilize all proxy server as Active
 	lenProxyServer := len(gProxyServers)
@@ -384,44 +374,6 @@ func main() {
 		gActiveProxyServers = append(gActiveProxyServers, 1)
 		gUpdatedProxyServers = append(gUpdatedProxyServers, gProxyServers[i])
 	}
-
-	log.Info("gActiveProxyServers : ", gActiveProxyServers)
-	// log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
-	// log.Info("gProxyServers        : ", gProxyServers)
-	// // gProxyServers[0] = "jayant"
-	// gUpdatedProxyServers[0] = "jayant"
-	// log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
-	// log.Info("gProxyServers        : ", gProxyServers)
-
-	//change is being made in checkproxies().
-	/*go func() {
-		refreshTime := 3 * time.Second
-		for {
-			log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
-			log.Info("gProxyServers : ", gProxyServers)
-			log.Info("gActiveProxyServers : ", gActiveProxyServers)
-			log.Info("***********************************************************")
-			for i := 0; i < lenProxyServer; i++ {
-				_, err := net.Dial("tcp", gProxyServers[i])
-				if err != nil && gActiveProxyServers[i] == 1 {
-
-					for j, addr := range gUpdatedProxyServers {
-						if addr == gProxyServers[i] {
-							gUpdatedProxyServers = append(gUpdatedProxyServers[:j], gUpdatedProxyServers[j+1:]...)
-							break
-						}
-					}
-					gActiveProxyServers[i] = 0
-
-					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
-				} else if err == nil && gActiveProxyServers[i] == 0 {
-					gUpdatedProxyServers = append(gUpdatedProxyServers[:i], append([]string{gProxyServers[i]}, gUpdatedProxyServers[i:]...)...)
-					gActiveProxyServers[i] = 1
-				}
-			}
-			time.Sleep(refreshTime)
-		}
-	}()*/
 
 	go func() {
 		stepCount := 1
@@ -439,7 +391,6 @@ func main() {
 					}
 					gActiveProxyServers[i] = 0
 
-					// log.Infof("Error while refreshing proxies %v, %v \n", reflect.TypeOf(IP), IP)
 				} else if err == nil && gActiveProxyServers[i] == 0 {
 					gUpdatedProxyServers = append([]string{gProxyServers[i]}, gUpdatedProxyServers[:]...)
 					sort.Strings(gUpdatedProxyServers)
@@ -456,25 +407,6 @@ func main() {
 		}
 	}()
 
-	// maxCount := 0
-	// go func() {
-	// 	refreshTime := 1 * time.Second
-	// 	for {
-	// 		time.Sleep(refreshTime)
-	// 		if connCount > maxCount {
-	// 			maxCount = connCount
-	// 		}
-	// 	}
-	// }()
-
-	// go func() {
-	// 	refreshTime := 10 * time.Second
-	// 	for {
-	// 		time.Sleep(refreshTime)
-	// 		log.Infof("maxCount : %d\n", maxCount)
-	// 	}
-	// }()
-
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
@@ -483,10 +415,8 @@ func main() {
 			incrAcceptErrors()
 			continue
 		}
-		// connChan <- conn
 		incrAcceptSuccesses()
 		go handleConnection(conn)
-		// log.Infof("connCount  : %d", connCount)
 		connCount += 1
 	}
 }
@@ -506,7 +436,6 @@ func checkProxies() {
 
 		log.Infof("Added proxy server %v\n", proxySpec)
 		if gSkipCheckUpstreamsReachable != 1 {
-			// log.Infof("checkProxies")
 			conn, err := dial(proxySpec)
 			if err != nil {
 				log.Infof("Test connection to %v: failed. Removing from proxy server list\n", proxySpec)
@@ -540,10 +469,7 @@ func copy(dst io.ReadWriteCloser, src io.ReadWriteCloser, dstname string, srcnam
 	}
 	written, err := io.Copy(dst, src)
 	*bytesWritten = written
-	//changes
-	if srcname == "proxyserver" && dstname == "client" {
-		// log.Infof("%d bytes copied from %s to %s", written, srcname, dstname)
-	}
+
 	if err != nil {
 		if operr, ok := err.(*net.OpError); ok {
 			if srcname == "directserver" || srcname == "proxyserver" {
@@ -686,7 +612,6 @@ func handleDirectConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (
 	}
 
 	ipport := fmt.Sprintf("%s:%d", ipv4, port)
-	// log.Infof("handleDirectConnection")
 	directConn, err := dial(ipport)
 	if err != nil {
 		clientConnRemoteAddr := "?"
@@ -793,7 +718,6 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		// proxySpec = gProxyServers[0]
 		log.Infof("hashCount : ", hashCount)
 
-		// log.Infof("handleProxyConnection")
 		proxyConn, err = dial(proxySpec)
 		if err != nil {
 			log.Debugf("PROXY|%v->%v->%s:%d|Trying next proxy.", clientConn.RemoteAddr(), proxySpec, ipv4, port)
@@ -836,7 +760,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		if strings.Contains(status, "503") {
 			log.Debugf("PROXY|%v->%v->%s:%d|Status from proxy=%s (Service Unavailable), relaying response to client", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
 			fmt.Fprintf(clientConn, status)
-			copy(clientConn, proxyConn, "client", "proxyserver", &wg, &bytesProxyClient)
+			// copy(clientConn, proxyConn, "client", "proxyserver", &wg, &bytesProxyClient)
 			httpStatusCode = 503
 			return
 		}
@@ -853,7 +777,6 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	}
 	if proxyConn == nil {
 		log.Debugf("handleProxyConnection(): oops, proxyConn is nil!")
-		//need to find out what is this code?
 		httpStatusCode = 400
 		return
 	}
@@ -861,7 +784,6 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		log.Infof("PROXY|%v->UNAVAILABLE->%s:%d|ERR: Tried all proxies, but could not establish connection. Giving up.\n", clientConn.RemoteAddr(), ipv4, port)
 		fmt.Fprintf(clientConn, "HTTP/1.0 503 Service Unavailable\r\nServer: go-any-proxy\r\nX-AnyProxy-Error: ERR_NO_PROXIES\r\n\r\n")
 		clientConn.Close()
-		//need to find out what is this code?
 		httpStatusCode = 400
 		return
 	}
@@ -875,22 +797,10 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	return
 }
 
-func timeTrack(start time.Time, name string) /*float64 */ {
-	elapsed := time.Since(start)
-	log.Infof("%s took %f millisecond", name, elapsed.Seconds()*1000)
-	// log.Infof("%d bytes copied from %s to %s", written, srcname, dstname)
-	// return elapsed.Seconds() * 1000
-}
-
 func handleConnection(clientConn *net.TCPConn) {
-
-	// var wg1 sync.WaitGroup
-	// wg1.Add(1)
-	// wg1.Wait()
 
 	start := time.Now()
 	//change
-	//defer timeTrack(time.Now(), "Request")
 	var logbuffer bytes.Buffer
 	logbuffer.WriteString(time.Now().Format("Jan 2 15:04:05"))
 	logbuffer.WriteString(" nm1 squid[19215]: ")
