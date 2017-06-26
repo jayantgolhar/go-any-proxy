@@ -333,13 +333,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	lenProxyServer := len(gProxyServers)
-
-	//Only for Testin purpose
-	for i := 0; i < lenProxyServer; i++ {
-		hashCount = append(hashCount, 0)
-	}
-
 	setupLogging()
 	setupProfiling()
 	setupStats()
@@ -372,6 +365,13 @@ func main() {
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
 	connCount := 0
+
+	lenProxyServer := len(gProxyServers)
+
+	//Only for Testing purpose
+	for i := 0; i < lenProxyServer; i++ {
+		hashCount = append(hashCount, 0)
+	}
 
 	//Initilize all proxy server as Active
 	for i := 0; i < lenProxyServer; i++ {
