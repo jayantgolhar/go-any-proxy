@@ -760,7 +760,6 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		if strings.Contains(status, "503") {
 			log.Debugf("PROXY|%v->%v->%s:%d|Status from proxy=%s (Service Unavailable), relaying response to client", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
 			fmt.Fprintf(clientConn, status)
-			// copy(clientConn, proxyConn, "client", "proxyserver", &wg, &bytesProxyClient)
 			httpStatusCode = 503
 			return
 		}
