@@ -72,6 +72,8 @@ const DEFAULTLOG = "/var/log/any_proxy.log"
 const STATSFILE = "/var/log/any_proxy.stats"
 
 var hashCount []int
+var srcIP map[string]struct{}
+var dstIP map[string]struct{}
 
 var gListenAddrPort string
 var gProxyServerSpec string
@@ -331,7 +333,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	for i := 0; i < 5; i++ {
+	lenProxyServer := len(gProxyServers)
+
+	//Only for Testin purpose
+	for i := 0; i < lenProxyServer; i++ {
 		hashCount = append(hashCount, 0)
 	}
 
@@ -369,7 +374,6 @@ func main() {
 	connCount := 0
 
 	//Initilize all proxy server as Active
-	lenProxyServer := len(gProxyServers)
 	for i := 0; i < lenProxyServer; i++ {
 		gActiveProxyServers = append(gActiveProxyServers, 1)
 		gUpdatedProxyServers = append(gUpdatedProxyServers, gProxyServers[i])
@@ -402,6 +406,9 @@ func main() {
 			log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
 			log.Info("gProxyServers        : ", gProxyServers)
 			log.Info("gActiveProxyServers  : ", gActiveProxyServers)
+			log.Info("hashCount : ", hashCount)
+			log.Info("Source IP : ", srcIP)
+			log.Info("Destination IP : ", dstIP)
 			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
@@ -716,7 +723,6 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		}
 
 		// proxySpec = gProxyServers[0]
-		log.Infof("hashCount : ", hashCount)
 
 		proxyConn, err = dial(proxySpec)
 		if err != nil {
@@ -849,8 +855,15 @@ func handleConnection(clientConn *net.TCPConn) {
 
 	//source IP address
 	srcipport := fmt.Sprintf("%v", clientConn.RemoteAddr())
-	logbuffer.WriteString(strings.Split(srcipport, ":")[0])
+	srcIPAddr := strings.Split(srcipport, ":")[0]
+	logbuffer.WriteString(srcIPAddr)
 	logbuffer.WriteString(" ")
+
+	//testing
+	_, ok := srcIP[srcIPAddr]
+	if !ok {
+		srcIP[srcIPAddr] = struct{}{}
+	}
 
 	//HTTP status code
 	logbuffer.WriteString("TCP_MISS/")
@@ -862,7 +875,8 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString("\n")
 
 	// n, err := net.LookupAddr("31.13.78.35")
-	n, err := net.LookupAddr(strings.Split(ipv4, ":")[0])
+	dstIPAddr := strings.Split(ipv4, ":")[0]
+	n, err := net.LookupAddr(dstIPAddr)
 
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
@@ -872,9 +886,15 @@ func handleConnection(clientConn *net.TCPConn) {
 		logbuffer.WriteString(":")
 		logbuffer.WriteString(strconv.Itoa(int(port)))
 	} else {
-		logbuffer.WriteString(strings.Split(ipv4, ":")[0])
+		logbuffer.WriteString(dstIPAddr)
 	}
 	logbuffer.WriteString(" ")
+
+	//testing
+	_, ok = dstIP[dstIPAddr]
+	if !ok {
+		dstIP[dstIPAddr] = struct{}{}
+	}
 
 	//dash for username
 	logbuffer.WriteString("- ")
