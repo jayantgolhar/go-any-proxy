@@ -72,8 +72,9 @@ const DEFAULTLOG = "/var/log/any_proxy.log"
 const STATSFILE = "/var/log/any_proxy.stats"
 
 var hashCount []int
-var srcIP map[string]struct{}
-var dstIP map[string]struct{}
+
+// var srcIP map[string]struct{}
+// var dstIP map[string]struct{}
 
 var gListenAddrPort string
 var gProxyServerSpec string
@@ -407,8 +408,8 @@ func main() {
 			log.Info("gProxyServers        : ", gProxyServers)
 			log.Info("gActiveProxyServers  : ", gActiveProxyServers)
 			log.Info("hashCount : ", hashCount)
-			log.Info("Source IP : ", srcIP)
-			log.Info("Destination IP : ", dstIP)
+			// log.Info("Source IP : ", srcIP)
+			// log.Info("Destination IP : ", dstIP)
 			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
@@ -860,10 +861,10 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(" ")
 
 	//testing
-	_, ok := srcIP[srcIPAddr]
-	if !ok {
-		srcIP[srcIPAddr] = struct{}{}
-	}
+	// _, ok := srcIP[srcIPAddr]
+	// if !ok {
+	// 	srcIP[srcIPAddr] = struct{}{}
+	// }
 
 	//HTTP status code
 	logbuffer.WriteString("TCP_MISS/")
@@ -891,10 +892,10 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(" ")
 
 	//testing
-	_, ok = dstIP[dstIPAddr]
-	if !ok {
-		dstIP[dstIPAddr] = struct{}{}
-	}
+	// _, ok = dstIP[dstIPAddr]
+	// if !ok {
+	// 	dstIP[dstIPAddr] = struct{}{}
+	// }
 
 	//dash for username
 	logbuffer.WriteString("- ")
