@@ -73,9 +73,9 @@ const STATSFILE = "/var/log/any_proxy.stats"
 
 var hashCount []int
 
-var srcIP map[string]int
-var dstIP map[string]int
-var srcDstIP map[string]int
+// var srcIP map[string]int
+// var dstIP map[string]int
+// var srcDstIP map[string]int
 
 var gListenAddrPort string
 var gProxyServerSpec string
@@ -335,9 +335,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	srcIP = make(map[string]int)
-	dstIP = make(map[string]int)
-	srcDstIP = make(map[string]int)
+	// srcIP = make(map[string]int)
+	// dstIP = make(map[string]int)
+	// srcDstIP = make(map[string]int)
 
 	setupLogging()
 	setupProfiling()
@@ -413,12 +413,12 @@ func main() {
 			log.Info("gProxyServers        : ", gProxyServers)
 			log.Info("gActiveProxyServers  : ", gActiveProxyServers)
 			log.Info("hashCount : ", hashCount)
-			log.Info("Source IP : ", srcIP)
-			log.Info("Number of Source IP : ", len(srcIP))
-			log.Info("Destination IP : ", dstIP)
-			log.Info("Number of Destination IP : ", len(dstIP))
-			log.Info("MixSD IP : ", srcDstIP)
-			log.Info("Number of MixSD IP : ", len(srcDstIP))
+			// log.Info("Source IP : ", srcIP)
+			// log.Info("Number of Source IP : ", len(srcIP))
+			// log.Info("Destination IP : ", dstIP)
+			// log.Info("Number of Destination IP : ", len(dstIP))
+			// log.Info("MixSD IP : ", srcDstIP)
+			// log.Info("Number of MixSD IP : ", len(srcDstIP))
 			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
@@ -714,10 +714,10 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	srcDst := strings.Join(srcDstSlice, "-")
 
 	//testing
-	_, ok := srcDstIP[srcDst]
-	if !ok {
-		srcDstIP[srcDst] = 1
-	}
+	// _, ok := srcDstIP[srcDst]
+	// if !ok {
+	// 	srcDstIP[srcDst] = 1
+	// }
 
 	//If only source
 	// srcDst := host
@@ -883,10 +883,10 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(" ")
 
 	//testing
-	_, ok := srcIP[srcIPAddr]
-	if !ok {
-		srcIP[srcIPAddr] = 1
-	}
+	// _, ok := srcIP[srcIPAddr]
+	// if !ok {
+	// 	srcIP[srcIPAddr] = 1
+	// }
 
 	//HTTP status code
 	logbuffer.WriteString("TCP_MISS/")
@@ -914,10 +914,10 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(" ")
 
 	//testing
-	_, ok = dstIP[dstIPAddr]
-	if !ok {
-		dstIP[dstIPAddr] = 1
-	}
+	// _, ok = dstIP[dstIPAddr]
+	// if !ok {
+	// 	dstIP[dstIPAddr] = 1
+	// }
 
 	//dash for username
 	logbuffer.WriteString("- ")
