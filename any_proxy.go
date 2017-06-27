@@ -705,8 +705,15 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		return h.Sum32()
 	}
 
+	//If source and destination combination
+	srcDstSlice := []string{host, ipv4}
+	srcDst := strings.Join(srcDstSlice, "-")
+
+	//If only source
+	// srcDst := host
+
 	numProxyServer := len(gProxyServers)
-	hashValue := int(hash(host)) % numProxyServer
+	hashValue := int(hash(srcDst)) % numProxyServer
 	var proxySpec string
 
 	for i := 0; i < numProxyServer; i++ {
@@ -716,7 +723,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 			if numProxyServer == 0 {
 				return
 			}
-			hashValue = int(hash(host)) % numProxyServer
+			hashValue = int(hash(srcDst)) % numProxyServer
 			proxySpec = gUpdatedProxyServers[(hashValue+i)%numProxyServer]
 			hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		} else {
