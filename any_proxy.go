@@ -417,8 +417,8 @@ func main() {
 			log.Info("Number of Source IP : ", len(srcIP))
 			log.Info("Destination IP : ", dstIP)
 			log.Info("Number of Destination IP : ", len(dstIP))
-			log.Info("SourceDestination IP : ", srcDstIP)
-			log.Info("Number of SourceDestination IP : ", len(srcDstIP))
+			log.Info("MixSD IP : ", srcDstIP)
+			log.Info("Number of MixSD IP : ", len(srcDstIP))
 			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
