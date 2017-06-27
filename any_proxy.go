@@ -412,7 +412,9 @@ func main() {
 			log.Info("gActiveProxyServers  : ", gActiveProxyServers)
 			log.Info("hashCount : ", hashCount)
 			log.Info("Source IP : ", srcIP)
+			log.Info("Number of Source IP : ", len(srcIP))
 			log.Info("Destination IP : ", dstIP)
+			log.Info("Number of Destination IP : ", len(dstIP))
 			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
