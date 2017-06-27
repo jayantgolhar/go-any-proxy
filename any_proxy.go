@@ -75,6 +75,7 @@ var hashCount []int
 
 var srcIP map[string]int
 var dstIP map[string]int
+var srcDstIP map[string]int
 
 var gListenAddrPort string
 var gProxyServerSpec string
@@ -336,6 +337,7 @@ func main() {
 
 	srcIP = make(map[string]int)
 	dstIP = make(map[string]int)
+	srcDstIP = make(map[string]int)
 
 	setupLogging()
 	setupProfiling()
@@ -415,6 +417,8 @@ func main() {
 			log.Info("Number of Source IP : ", len(srcIP))
 			log.Info("Destination IP : ", dstIP)
 			log.Info("Number of Destination IP : ", len(dstIP))
+			log.Info("SourceDestination IP : ", srcDstIP)
+			log.Info("Number of SourceDestination IP : ", len(srcDstIP))
 			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
@@ -708,6 +712,12 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	//If source and destination combination
 	srcDstSlice := []string{host, ipv4}
 	srcDst := strings.Join(srcDstSlice, "-")
+
+	//testing
+	_, ok := srcDstIP[srcDst]
+	if !ok {
+		srcDstIP[srcDst] = 1
+	}
 
 	//If only source
 	// srcDst := host
