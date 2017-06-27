@@ -334,6 +334,9 @@ func main() {
 		os.Exit(1)
 	}
 
+	srcIP = make(map[string]int)
+	dstIP = make(map[string]int)
+
 	setupLogging()
 	setupProfiling()
 	setupStats()
