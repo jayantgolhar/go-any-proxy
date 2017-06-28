@@ -43,6 +43,23 @@ CC lab machine IP : 10.100.106.111
 The following example redirects TCP port 25 to port 2525:
 
 iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 143 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 993 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 110 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 995 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 20 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 21 -j REDIRECT --to-port 3129
+
+
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 143 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 993 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 110 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 995 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 20 -j REDIRECT --to-port 3129
+iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 21 -j REDIRECT --to-port 3129
 
 CC VM IP address : 10.201.23.17
 ssh root@10.201.23.17
@@ -86,3 +103,7 @@ Avg. Bytes - average response size
 10.129.40.110   slave5
 
 
+
+ssh -n -f root@10.201.23.17 "sh -c 'cd go-any-proxy; nohup sudo ./run.sh > /dev/null 2>&1 &'"
+
+ssh -n -f root@10.201.60.121 "sh -c 'cd go-any-proxy; nohup sudo ./run.sh > /dev/null 2>&1 &'"
