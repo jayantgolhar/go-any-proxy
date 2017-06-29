@@ -43,19 +43,17 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"encoding/base64"
 	"errors"
 	"flag"
 	"fmt"
 	log "github.com/zdannar/flogger"
-	"io"
-	// syslog "log"
-	"bytes"
 	"hash/fnv"
+	"io"
 	"net"
 	"os"
 	"os/signal"
-	// "reflect"
 	"runtime"
 	"runtime/pprof"
 	"sort"
@@ -71,12 +69,6 @@ const SO_ORIGINAL_DST = 80
 const DEFAULTLOG = "/var/log/any_proxy.log"
 const STATSFILE = "/var/log/any_proxy.stats"
 
-var hashCount []int
-
-// var srcIP map[string]int
-// var dstIP map[string]int
-// var srcDstIP map[string]int
-
 var gListenAddrPort string
 var gProxyServerSpec string
 var gDirects string
@@ -91,8 +83,6 @@ var gCpuProfile string
 var gMemProfile string
 var gClientRedirects int
 var gReverseLookups int
-
-var count = 1
 
 type cacheEntry struct {
 	hostname string
@@ -327,17 +317,15 @@ func setupLogging() {
 
 func main() {
 
+	/*MTP change start*/
 	runtime.GOMAXPROCS(10000)
+	/*MTP change end*/
 
 	flag.Parse()
 	if gListenAddrPort == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
-
-	// srcIP = make(map[string]int)
-	// dstIP = make(map[string]int)
-	// srcDstIP = make(map[string]int)
 
 	setupLogging()
 	setupProfiling()
@@ -370,15 +358,8 @@ func main() {
 	defer listener.Close()
 	log.Infof("Listening for connections on %v\n", listener.Addr())
 
-	connCount := 0
-
+	/*MTP change start*/
 	lenProxyServer := len(gProxyServers)
-
-	//Only for Testing purpose
-	for i := 0; i < lenProxyServer; i++ {
-		hashCount = append(hashCount, 0)
-	}
-
 	//Initilize all proxy server as Active
 	for i := 0; i < lenProxyServer; i++ {
 		gActiveProxyServers = append(gActiveProxyServers, 1)
@@ -386,7 +367,6 @@ func main() {
 	}
 
 	go func() {
-		stepCount := 1
 		refreshTime := 15 * time.Second
 		for {
 			for i := 0; i < lenProxyServer; i++ {
@@ -407,34 +387,20 @@ func main() {
 					gActiveProxyServers[i] = 1
 				}
 			}
-			log.Info("Step : ", stepCount)
-			stepCount++
-			log.Info("gUpdatedProxyServers : ", gUpdatedProxyServers)
-			log.Info("gProxyServers        : ", gProxyServers)
-			log.Info("gActiveProxyServers  : ", gActiveProxyServers)
-			log.Info("hashCount : ", hashCount)
-			// log.Info("Source IP : ", srcIP)
-			// log.Info("Number of Source IP : ", len(srcIP))
-			// log.Info("Destination IP : ", dstIP)
-			// log.Info("Number of Destination IP : ", len(dstIP))
-			// log.Info("MixSD IP : ", srcDstIP)
-			// log.Info("Number of MixSD IP : ", len(srcDstIP))
-			log.Info("*************************************************************************************************************")
 			time.Sleep(refreshTime)
 		}
 	}()
+	/*MTP change end*/
 
 	for {
 		conn, err := listener.AcceptTCP()
 		if err != nil {
-			// log.Infof("Error accepting connection: %v\n", err)
-			log.Infof("Error accepting connection: %v conncount : %d\n", err, connCount)
+			log.Infof("Error accepting connection: %v\n", err)
 			incrAcceptErrors()
 			continue
 		}
 		incrAcceptSuccesses()
 		go handleConnection(conn)
-		connCount += 1
 	}
 }
 
@@ -456,9 +422,9 @@ func checkProxies() {
 			conn, err := dial(proxySpec)
 			if err != nil {
 				log.Infof("Test connection to %v: failed. Removing from proxy server list\n", proxySpec)
-				// a := gProxyServers[:i]
-				// b := gProxyServers[i+1:]
-				// gProxyServers = append(a, b...)
+				a := gProxyServers[:i]
+				b := gProxyServers[i+1:]
+				gProxyServers = append(a, b...)
 				continue
 			}
 			conn.Close()
@@ -474,7 +440,9 @@ func checkProxies() {
 }
 
 func copy(dst io.ReadWriteCloser, src io.ReadWriteCloser, dstname string, srcname string, wg *sync.WaitGroup, bytesWritten *int64) {
+	/*MTP change start*/
 	defer wg.Done()
+	/*MTP change end*/
 
 	if dst == nil {
 		log.Debugf("copy(): oops, dst is nil!")
@@ -608,11 +576,13 @@ func dial(spec string) (*net.TCPConn, error) {
 }
 
 func handleDirectConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (bytesWebClient int64, httpStatusCode int) {
-	//change
+	/*MTP change start*/
 	var bytesClientWeb int64
 	bytesWebClient = 0
 	httpStatusCode = 200
 	var wg sync.WaitGroup
+	/*MTP change end*/
+
 	// TODO: remove
 	log.Debugf("Enter handleDirectConnection: clientConn=%+v (%T)\n", clientConn, clientConn)
 
@@ -644,18 +614,18 @@ func handleDirectConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (
 	}
 	log.Debugf("DIRECT|%v->%v|Connected to remote end", clientConn.RemoteAddr(), directConn.RemoteAddr())
 	incrDirectConnections()
-	//change
+
+	/*MTP change start*/
 	wg.Add(2)
-	//copy from directconn to clientconn
-	go copy(clientConn, directConn, "client", "directserver", &wg, &bytesWebClient)
-	//copy from clientconn to directconn
-	go copy(directConn, clientConn, "directserver", "client", &wg, &bytesClientWeb)
+	go copy(clientConn, directConn, "client", "directserver", &wg, &bytesWebClient) //copy from directconn to clientconn
+	go copy(directConn, clientConn, "directserver", "client", &wg, &bytesClientWeb) //copy from clientconn to directconn
 	wg.Wait()
+	/*MTP change end*/
 
 	return
 }
 
-func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (bytesProxyClient int64, httpStatusCode int) {
+func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (bytesProxyClient int64, httpStatusCode int, proxyServerNumber int) {
 	//change
 	var wg sync.WaitGroup
 	var proxyConn net.Conn
@@ -663,10 +633,12 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	var success bool = false
 	var host string
 	var headerXFF string = ""
-	//change
+
+	/*MTP change start*/
 	var bytesClientProxy int64
 	bytesProxyClient = 0
 	httpStatusCode = 200
+	/*MTP change end*/
 
 	// TODO: remove
 	log.Debugf("Enter handleProxyConnection: clientConn=%+v (%T)\n", clientConn, clientConn)
@@ -703,6 +675,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		}
 	}
 
+	/*MTP change start*/
 	hash := func(s string) uint32 {
 		h := fnv.New32a()
 		h.Write([]byte(s))
@@ -713,21 +686,17 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 	srcDstSlice := []string{host, ipv4}
 	srcDst := strings.Join(srcDstSlice, "-")
 
-	//testing
-	// _, ok := srcDstIP[srcDst]
-	// if !ok {
-	// 	srcDstIP[srcDst] = 1
-	// }
-
-	//If only source
+	//Comment out this line if want to use source only hash
 	// srcDst := host
 
 	numProxyServer := len(gProxyServers)
 	hashValue := int(hash(srcDst)) % numProxyServer
 	var proxySpec string
+	/*MTP change end*/
 
 	for i := 0; i < numProxyServer; i++ {
 
+		/*MTP change start*/
 		if gActiveProxyServers[hashValue] == 0 {
 			numProxyServer = len(gUpdatedProxyServers)
 			if numProxyServer == 0 {
@@ -735,17 +704,22 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 			}
 			hashValue = int(hash(srcDst)) % numProxyServer
 			proxySpec = gUpdatedProxyServers[(hashValue+i)%numProxyServer]
-			hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		} else {
 			numProxyServer = len(gProxyServers)
 			if numProxyServer == 0 {
 				return
 			}
 			proxySpec = gProxyServers[(hashValue+i)%numProxyServer]
-			hashCount[(hashValue+i)%numProxyServer] = hashCount[(hashValue+i)%numProxyServer] + 1
 		}
 
-		// proxySpec = gProxyServers[0]
+		//Extract proxyServerNumber
+		host, port, err := net.SplitHostPort(proxySpec)
+		if err != nil {
+			log.Infof("dial(): ERR: could not extract host and port from spec %v: %v", proxySpec, err)
+			return
+		}
+		proxyServerNumber, _ = strconv.Atoi(strings.Split(host, ".")[3])
+		/*MTP change end*/
 
 		proxyConn, err = dial(proxySpec)
 		if err != nil {
@@ -759,9 +733,7 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		}
 		connectString := fmt.Sprintf("CONNECT %s:%d HTTP/1.0%s\r\n%s\r\n", ipv4, port, authString, headerXFF)
 		log.Debugf("PROXY|%v->%v->%s:%d|Sending to proxy: %s\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(connectString))
-		// log.Infof("connectString%d : %s", count, connectString)
-		//log.Infof("connectString : %d", count)
-		count += 1
+
 		fmt.Fprintf(proxyConn, connectString)
 		status, err := bufio.NewReader(proxyConn).ReadString('\n')
 		log.Debugf("PROXY|%v->%v->%s:%d|Received from proxy: %s", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
@@ -786,12 +758,14 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 			httpStatusCode = 301
 			return
 		}
+		/*MTP change start*/
 		if strings.Contains(status, "503") {
 			log.Debugf("PROXY|%v->%v->%s:%d|Status from proxy=%s (Service Unavailable), relaying response to client", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
 			fmt.Fprintf(clientConn, status)
 			httpStatusCode = 503
 			return
 		}
+		/*MTP change end*/
 		if strings.Contains(status, "200") == false {
 			log.Infof("PROXY|%v->%v->%s:%d|ERR: Proxy response to CONNECT was: %s. Trying next proxy.\n", clientConn.RemoteAddr(), proxyConn.RemoteAddr(), ipv4, port, strconv.Quote(status))
 			incrProxyNon200Responses()
@@ -816,27 +790,21 @@ func handleProxyConnection(clientConn *net.TCPConn, ipv4 string, port uint16) (b
 		return
 	}
 	incrProxiedConnections()
-	//change
+
+	/*MTP change start*/
 	wg.Add(2)
 	go copy(clientConn, proxyConn, "client", "proxyserver", &wg, &bytesProxyClient)
 	go copy(proxyConn, clientConn, "proxyserver", "client", &wg, &bytesClientProxy)
 	wg.Wait()
+	/*MTP change end*/
 
 	return
 }
 
 func handleConnection(clientConn *net.TCPConn) {
 
-	start := time.Now()
 	//change
 	var logbuffer bytes.Buffer
-	logbuffer.WriteString(time.Now().Format("Jan 2 15:04:05"))
-	logbuffer.WriteString(" nm1 squid[19215]: ")
-
-	timestamp := (float64(time.Now().UnixNano())) / 1000000000
-	logbuffer.WriteString(strconv.FormatFloat(timestamp, 'f', 3, 64))
-	logbuffer.WriteString(" ")
-	// logString := fmt.Sprintf("%s nm1 squid[19215]: %d", time.Now().Format("Jan 2 15:04:05"), int32(time.Now().Unix()))
 
 	if clientConn == nil {
 		log.Debugf("handleConnection(): oops, clientConn is nil")
@@ -856,20 +824,49 @@ func handleConnection(clientConn *net.TCPConn) {
 		log.Infof("handleConnection(): can not handle this connection, error occurred in getting original destination ip address/port: %+v\n", err)
 		return
 	}
+
+	/*MTP change start*/
+	srcipport := fmt.Sprintf("%v", clientConn.RemoteAddr())
+	srcIPAddr := strings.Split(srcipport, ":")[0]
+
+	//Direct connection of specific source IP
+	ip := net.ParseIP(srcIPAddr)
+
+	//Comment out this line if want to use direct connection for specific destination
+	// ip := net.ParseIP(ipv4)
+
+	var bytesWritten int64 = 0
+	httpStatusCode := 200
+	start := time.Now()
+	var proxyServerNumber int = -1
+
 	// If no upstream proxies were provided on the command line, assume all traffic should be sent directly
 	if gProxyServerSpec == "" {
 		handleDirectConnection(clientConn, ipv4, port)
 		return
 	}
-	// Evaluate for direct connection
-	ip := net.ParseIP(ipv4)
+
+	// Evaluate for direct connection, Check if destination is in gDirects
 	if ok, _ := director(&ip); ok {
 		handleDirectConnection(clientConn, ipv4, port)
 		return
 	}
-	bytesWritten, httpStatusCode := handleProxyConnection(clientConn, ipv4, port)
+	bytesWritten, httpStatusCode, proxyServerNumber = handleProxyConnection(clientConn, ipv4, port)
 
-	//change
+	logbuffer.WriteString(time.Now().Format("Jan 2 15:04:05"))
+
+	if proxyServerNumber == -1 {
+		logbuffer.WriteString(" DIRECT")
+	} else {
+		logbuffer.WriteString(" NM")
+		logbuffer.WriteString(strconv.Itoa(proxyServerNumber))
+	}
+	logbuffer.WriteString(" ")
+
+	timestamp := (float64(time.Now().UnixNano())) / 1000000000
+	logbuffer.WriteString(strconv.FormatFloat(timestamp, 'f', 3, 64))
+	logbuffer.WriteString(" ")
+
 	//Elapsed duration
 	elapsed := time.Since(start).Seconds() * 1000
 	elapsedString := fmt.Sprintf("%v", int(elapsed))
@@ -877,16 +874,8 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(" ")
 
 	//source IP address
-	srcipport := fmt.Sprintf("%v", clientConn.RemoteAddr())
-	srcIPAddr := strings.Split(srcipport, ":")[0]
 	logbuffer.WriteString(srcIPAddr)
 	logbuffer.WriteString(" ")
-
-	//testing
-	// _, ok := srcIP[srcIPAddr]
-	// if !ok {
-	// 	srcIP[srcIPAddr] = 1
-	// }
 
 	//HTTP status code
 	logbuffer.WriteString("TCP_MISS/")
@@ -897,13 +886,11 @@ func handleConnection(clientConn *net.TCPConn) {
 	logbuffer.WriteString(strconv.Itoa(int(bytesWritten)))
 	logbuffer.WriteString("\n")
 
-	// n, err := net.LookupAddr("31.13.78.35")
 	dstIPAddr := strings.Split(ipv4, ":")[0]
 	n, err := net.LookupAddr(dstIPAddr)
 
 	//Destination IP address
 	logbuffer.WriteString("CONNECT ")
-	// logbuffer.WriteString(ipv4)
 	if len(n) >= 1 {
 		logbuffer.WriteString(n[0])
 		logbuffer.WriteString(":")
@@ -913,16 +900,17 @@ func handleConnection(clientConn *net.TCPConn) {
 	}
 	logbuffer.WriteString(" ")
 
-	//testing
-	// _, ok = dstIP[dstIPAddr]
-	// if !ok {
-	// 	dstIP[dstIPAddr] = 1
-	// }
-
 	//dash for username
 	logbuffer.WriteString("- ")
 
-	logbuffer.WriteString("HIER_DIRECT/")
+	logbuffer.WriteString("HIER_")
+	if proxyServerNumber == -1 {
+		logbuffer.WriteString("DIRECT/")
+	} else {
+		logbuffer.WriteString("FIRST_UP_PARENT/")
+		logbuffer.WriteString(strconv.Itoa(proxyServerNumber))
+	}
+
 	if len(n) >= 1 {
 		logbuffer.WriteString(n[0])
 	} else {
@@ -934,6 +922,7 @@ func handleConnection(clientConn *net.TCPConn) {
 
 	logstring := logbuffer.String()
 	log.Infof("%s", logstring)
+	/*MTP change end*/
 
 }
 
